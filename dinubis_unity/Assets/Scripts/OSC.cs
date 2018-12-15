@@ -406,7 +406,7 @@ public class OSC : MonoBehaviour
 
 
 	
-	void HandleOnPlayModeChanged()
+	void HandleOnPlayModeChanged(UnityEditor.PlayModeStateChange state)
 	{
 		// This method is run whenever the playmode state is changed.
 		
@@ -450,7 +450,8 @@ public class OSC : MonoBehaviour
 		ReadThread.Start();
 
 		#if UNITY_EDITOR
-		UnityEditor.EditorApplication.playmodeStateChanged = HandleOnPlayModeChanged;
+		//UnityEditor.EditorApplication.playmodeStateChanged = HandleOnPlayModeChanged;
+    UnityEditor.EditorApplication.playModeStateChanged += HandleOnPlayModeChanged;
 		#endif
 
 	}

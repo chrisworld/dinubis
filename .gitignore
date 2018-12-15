@@ -1,9 +1,10 @@
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
-[Bb]uild/
-[Bb]uilds/
-Assets/AssetStoreTools*
+dinubis_unity/[Ll]ibrary/
+dinubis_unity/[Tt]emp/
+dinubis_unity/[Oo]bj/
+dinubis_unity/[Bb]uild/
+dinubis_unity/[Bb]uilds/
+dinubis_unity/Assets/AssetStoreTools*
+dinubis_unity/Logs
 
 # Visual Studio cache directory
 .vs/
