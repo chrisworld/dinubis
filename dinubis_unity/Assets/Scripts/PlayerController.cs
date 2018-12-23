@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
   // public
   public float walkSpeed = 1;
@@ -15,38 +15,38 @@ public class PlayerController : MonoBehaviour
 
   //controls how much the player can turn while in mid air
   public float inAirControl = 1;          
-
   public bool move_activated = true;
 
   // private
   private bool walk = false;
   private bool run = false;
 
-  float turnSmoothVelocity;
-  float speedSmoothVelocity;
-  float currentSpeed;
-  float velocityY;
+  private float turnSmoothVelocity;
+  private float speedSmoothVelocity;
+  private float currentSpeed;
+  private float velocityY;
 
-  Animator anim;
-  Transform cameraT;
-  CharacterController controller;
+  private Animator anim;
+  private Transform cameraT;
+  private CharacterController controller;
 
   // start
   void Start()
   {
     cameraT = Camera.main.transform;
     controller = GetComponent<CharacterController>();
+    Debug.Log("is a local player? " + isLocalPlayer.ToString());
+    Debug.Log("is a client? " + isClient.ToString());
+    Debug.Log("is the server? " + isServer.ToString());
   }
 
-  // update
-  void Update()
-  {
-
-  }
-
-  // Move hamlin
+  // Move Character
   public void Move(Vector2 input, bool run_active)
   {
+    if (!isLocalPlayer) {
+      return;
+    };
+
     // control movement
     Vector2 inputDirection = input.normalized;
     float targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.y) * Mathf.Rad2Deg + cameraT.eulerAngles.y;
@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
   }
 
   // play the flute
-  public void getAttacked()
+  public void GetAttacked()
   {
     //anim.SetTrigger("getAttacked");
     //sound_player.hamlin_hurt.Play();

@@ -58,6 +58,8 @@ GameObject:
   - component: {fileID: 143721316593125972}
   - component: {fileID: 114594095784407522}
   - component: {fileID: 114677507232731700}
+  - component: {fileID: 114470695682091480}
+  - component: {fileID: 114423972519973218}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -85,7 +87,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1901042299387618}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.02, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4637235783815038}
@@ -195,6 +197,59 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1252314089249818}
   m_Enabled: 1
+--- !u!114 &114423972519973218
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1901042299387618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 4
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &114470695682091480
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1901042299387618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 83
+    i1: 230
+    i2: 128
+    i3: 141
+    i4: 195
+    i5: 243
+    i6: 116
+    i7: 233
+    i8: 122
+    i9: 23
+    i10: 195
+    i11: 154
+    i12: 253
+    i13: 63
+    i14: 25
+    i15: 117
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114562954302375636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -210,7 +265,7 @@ MonoBehaviour:
   player: {fileID: 4491382353053228}
   rotationSmoothTime: 0.12
   pitchMin: 10
-  pitchMax: 50
+  pitchMax: 45
   distanceFromPlayer: 8
 --- !u!114 &114594095784407522
 MonoBehaviour:
@@ -223,12 +278,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34df4d240338e27448db108e08f38af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 4
-  runSpeed: 8
+  walkSpeed: 6
+  runSpeed: 12
   turnSmoothTime: 0.2
   speedSmoothTime: 0.1
-  gravity: -20
-  jumpHeight: 2
+  gravity: -30
+  jumpHeight: 3
   inAirControl: 1
   move_activated: 1
 --- !u!114 &114677507232731700
