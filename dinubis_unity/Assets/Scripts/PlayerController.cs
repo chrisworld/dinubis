@@ -33,6 +33,7 @@ public class PlayerController : NetworkBehaviour
   // start
   void Start()
   {
+    anim = GetComponentInChildren<Animator>();
     cameraT = Camera.main.transform;
     controller = GetComponent<CharacterController>();
     Debug.Log("is a local player? " + isLocalPlayer.ToString());
@@ -68,8 +69,8 @@ public class PlayerController : NetworkBehaviour
       float animationSpeedPercent = (run ? currentSpeed / runSpeed : currentSpeed / walkSpeed * 0.5f);
       
       // animation
-      //anim.SetFloat("speedPercent", animationSpeedPercent, GetModifiedSmoothTime(speedSmoothTime), Time.deltaTime);
-      
+      anim.SetFloat("speed", animationSpeedPercent, GetModifiedSmoothTime(speedSmoothTime), Time.deltaTime);
+
       // walk and run sound
       if (animationSpeedPercent > 0.1 && animationSpeedPercent < 0.6 && !walk){
         walk = true;
@@ -96,13 +97,12 @@ public class PlayerController : NetworkBehaviour
   //should work even when movement disabled
   public void Jump()
   {
-    Debug.Log("Jump");
-    if (controller.isGrounded)
-    {
+    //if (controller.isGrounded)
+    //{
       float jumpVelocity = Mathf.Sqrt(-2 * gravity * jumpHeight);
       velocityY = jumpVelocity;
       //anim.SetTrigger("jump");
-    }
+    //}
   }
 
   //not convinced this is really that useful - may delete later
