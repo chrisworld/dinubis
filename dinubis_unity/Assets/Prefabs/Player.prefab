@@ -603,7 +603,7 @@ MonoBehaviour:
   mouseSensitivity: 5
   player: {fileID: 4491382353053228}
   rotationSmoothTime: 0.12
-  pitchMin: 10
+  pitchMin: 5
   pitchMax: 45
   distanceFromPlayer: 8
 --- !u!114 &114594095784407522
