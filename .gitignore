@@ -43,3 +43,7 @@ Assets/StreamingAssets/crashlytics-build.properties
 # my other files
 *.DS_Store
 *.blend1
+dinubis_unity/ProjectSettings/EditorBuildSettings.asset
+#dinubis_unity/ProjectSettings/GraphicsSettings.asset
+#dinubis_unity/ProjectSettings/ProjectSettings.asset
+dinubis_unity/ProjectSettings/UnityConnectSettings.asset
