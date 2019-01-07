@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 
-public class ThirdPersonCamera : MonoBehaviour {
+public class ThirdPersonCamera : NetworkBehaviour {
 
     public float mouseSensitivity = 5;
     public Transform player;
@@ -21,10 +22,23 @@ public class ThirdPersonCamera : MonoBehaviour {
     Vector3 rotationSmoothVelocity;
     Vector3 currentRotation;
 
+    private Camera cam;
+    private AudioListener al;
+
     void Start()
     {
         //Set Cursor to not be visible
         Cursor.visible = false;
+        cam = gameObject.GetComponentInChildren<Camera>();
+        al = gameObject.GetComponentInChildren<AudioListener> ();
+
+        if (isLocalPlayer) {
+            cam.enabled = true;
+            // get the location rotation of the character and the camera
+            //m_CharacterTargetRot = character.localRotation;
+            //m_CameraTargetRot = cameraTransform.localRotation;
+            al.enabled = true;
+        }
     }
 
     void LateUpdate () {
@@ -33,7 +47,7 @@ public class ThirdPersonCamera : MonoBehaviour {
         pitch = Mathf.Clamp(pitch, pitchMin, pitchMax);
 
         currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref rotationSmoothVelocity, rotationSmoothTime);
-        transform.eulerAngles = currentRotation;
-        transform.position = player.position - transform.forward * distanceFromPlayer;
+        cam.transform.eulerAngles = currentRotation;
+        cam.transform.position = player.position - cam.transform.forward * distanceFromPlayer;
 	}
 }

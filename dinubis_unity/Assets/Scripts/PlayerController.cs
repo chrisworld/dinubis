@@ -36,9 +36,6 @@ public class PlayerController : NetworkBehaviour
     anim = GetComponentInChildren<Animator>();
     cameraT = Camera.main.transform;
     controller = GetComponent<CharacterController>();
-    Debug.Log("is a local player? " + isLocalPlayer.ToString());
-    Debug.Log("is a client? " + isClient.ToString());
-    Debug.Log("is the server? " + isServer.ToString());
   }
 
   // Move Character
@@ -97,6 +94,9 @@ public class PlayerController : NetworkBehaviour
   //should work even when movement disabled
   public void Jump()
   {
+    if (!isLocalPlayer) {
+      return;
+    };
     //if (controller.isGrounded)
     //{
       float jumpVelocity = Mathf.Sqrt(-2 * gravity * jumpHeight);

@@ -67,7 +67,6 @@ GameObject:
   - component: {fileID: 4405479914030206}
   - component: {fileID: 20521734034389218}
   - component: {fileID: 81215388013274328}
-  - component: {fileID: 114562954302375636}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -227,9 +226,10 @@ GameObject:
   - component: {fileID: 114677507232731700}
   - component: {fileID: 114470695682091480}
   - component: {fileID: 114423972519973218}
+  - component: {fileID: 114964299783168768}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -435,7 +435,7 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1252314089249818}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -450,7 +450,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 500
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -517,7 +517,7 @@ AudioListener:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1252314089249818}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!95 &95272244810873626
 Animator:
   serializedVersion: 3
@@ -589,23 +589,6 @@ MonoBehaviour:
     i15: 117
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &114562954302375636
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1252314089249818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf7e80f072465484bbb81f9fa40316b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mouseSensitivity: 5
-  player: {fileID: 4491382353053228}
-  rotationSmoothTime: 0.12
-  pitchMin: 5
-  pitchMax: 45
-  distanceFromPlayer: 8
 --- !u!114 &114594095784407522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -636,6 +619,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c452fc4aec2256749b808023b19b98a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114964299783168768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1901042299387618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf7e80f072465484bbb81f9fa40316b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseSensitivity: 5
+  player: {fileID: 4491382353053228}
+  rotationSmoothTime: 0.12
+  pitchMin: 5
+  pitchMax: 45
+  distanceFromPlayer: 8
 --- !u!136 &136962365019627250
 CapsuleCollider:
   m_ObjectHideFlags: 1
