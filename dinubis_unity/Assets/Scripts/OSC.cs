@@ -405,7 +405,7 @@ public class OSC : MonoBehaviour
 	bool paused = false;
 
 
-	
+	/*
 	void HandleOnPlayModeChanged(UnityEditor.PlayModeStateChange state)
 	{
 		// This method is run whenever the playmode state is changed.
@@ -416,7 +416,7 @@ public class OSC : MonoBehaviour
 			// do stuff when the editor is paused.
 		#endif
 	}
-
+  */
 
 
 
@@ -451,7 +451,7 @@ public class OSC : MonoBehaviour
 
 		#if UNITY_EDITOR
 		//UnityEditor.EditorApplication.playmodeStateChanged = HandleOnPlayModeChanged;
-    UnityEditor.EditorApplication.playModeStateChanged += HandleOnPlayModeChanged;
+    //UnityEditor.EditorApplication.playModeStateChanged += HandleOnPlayModeChanged;
 		#endif
 
 	}

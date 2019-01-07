@@ -12,6 +12,9 @@ ModelImporter:
     100012: rim_ear.r
     100014: rim_head
     100016: rim_neck
+    100018: crystal
+    100020: eye
+    100022: light
     400000: body
     400002: head
     400004: head.001
@@ -21,8 +24,12 @@ ModelImporter:
     400012: rim_ear.r
     400014: rim_head
     400016: rim_neck
+    400018: crystal
+    400020: eye
+    400022: light
     2100000: rim
     2100002: body
+    2100004: eye
     2300000: body
     2300002: head
     2300004: head.001
@@ -31,6 +38,8 @@ ModelImporter:
     2300010: rim_ear.r
     2300012: rim_head
     2300014: rim_neck
+    2300016: crystal
+    2300018: eye
     3300000: body
     3300002: head
     3300004: head.001
@@ -39,6 +48,8 @@ ModelImporter:
     3300010: rim_ear.r
     3300012: rim_head
     3300014: rim_neck
+    3300016: crystal
+    3300018: eye
     4300000: rim_bottom
     4300002: rim_neck
     4300004: body
@@ -47,12 +58,20 @@ ModelImporter:
     4300010: head.001
     4300012: rim_ear.r
     4300014: rim_ear.l
+    4300016: crystal
+    4300018: eye
+    10800000: light
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: body
     second: {fileID: 2100000, guid: 636b3850688e8e148b7a04ccb7da9ee1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eye
+    second: {fileID: 2100000, guid: f204440ec8f4c8c4b99e0393a8dad46e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
