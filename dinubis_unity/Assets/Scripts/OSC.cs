@@ -392,7 +392,7 @@ public class OSC : MonoBehaviour
       private UDPPacketIO OscPacketIO;
       Thread ReadThread;
 	  private bool ReaderRunning;
-      private OscMessageHandler AllMessageHandler;
+      //private OscMessageHandler AllMessageHandler;
 
       Hashtable AddressTable;
 
@@ -433,8 +433,11 @@ public class OSC : MonoBehaviour
 //		} else {
 //			PlayerPrefs.SetString ("ipAddress",  "127.0.0.1");
 //		}
+    //GameObject[] nubis = GameObject.FindGameObjectsWithTag("Player");
+    //inPort  = 6969 + nubis.Length;
 
-		
+		inPort  = 6969;
+    Debug.Log("Inport set to: " + inPort);
 
 		OscPacketIO = new UDPPacketIO(outIP, outPort, inPort);
 		AddressTable = new Hashtable();
@@ -443,11 +446,12 @@ public class OSC : MonoBehaviour
 
 		buffer = new byte[1000];
 
-
+    /* Read Thread
 		ReadThread = new Thread(Read);
 		ReaderRunning = true;
 		ReadThread.IsBackground = true;      
 		ReadThread.Start();
+    */
 
 		#if UNITY_EDITOR
 		//UnityEditor.EditorApplication.playmodeStateChanged = HandleOnPlayModeChanged;
@@ -455,6 +459,7 @@ public class OSC : MonoBehaviour
 		#endif
 
 	}
+
 
 	void OnDestroy() {
 		Close();
@@ -497,7 +502,7 @@ public class OSC : MonoBehaviour
 
 	void Update() {
 
-
+    /* No Messages to receive
 		if ( messagesReceived.Count > 0 ) {
 			//Debug.Log("received " + messagesReceived.Count + " messages");
 			lock(ReadThreadLock) {
@@ -518,7 +523,7 @@ public class OSC : MonoBehaviour
 				messagesReceived.Clear();
 			}
 		}
-
+    // */
 
 
 
@@ -637,7 +642,7 @@ public class OSC : MonoBehaviour
     /// <param name="amh">The method to call back on.</param>   
     public void SetAllMessageHandler(OscMessageHandler amh)
     {
-      AllMessageHandler = amh;
+      //AllMessageHandler = amh;
     }
 
  
