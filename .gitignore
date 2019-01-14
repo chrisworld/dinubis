@@ -5,6 +5,7 @@ dinubis_unity/[Bb]uild/
 dinubis_unity/[Bb]uilds/
 dinubis_unity/Assets/AssetStoreTools*
 dinubis_unity/Logs
+_save/
 
 # Visual Studio cache directory
 .vs/
