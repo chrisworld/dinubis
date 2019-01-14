@@ -7,6 +7,9 @@ using UnityEngine.AI;
 public class Resident : MonoBehaviour {
 
   public float follow_dist;
+  public float follow_speed;
+  public float walking_range;
+  public float walking_speed;
   [HideInInspector]
   public bool follow_nubi;
   NavMeshAgent agent;
@@ -15,8 +18,8 @@ public class Resident : MonoBehaviour {
 
   // Use this for initialization
   void Start () {
+    // NavMesh Agent setup
     agent = gameObject.GetComponent<NavMeshAgent>();
-    agent.SetDestination(gameObject.GetComponent<Transform>().position);
 
     OSC myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();;
     OscMessage msg = new OscMessage ();
@@ -26,6 +29,7 @@ public class Resident : MonoBehaviour {
     msg.values.Add (transform.position.z);
     myOsc.Send (msg);
     Debug.Log("Send message /soundObject");
+
   }
   
   // Update is called once per frame
@@ -42,23 +46,62 @@ public class Resident : MonoBehaviour {
     nubis = GameObject.FindGameObjectsWithTag("Player");
 
     //List<float> distance_list = new List<float>();
-    Dictionary<GameObject, float> distance_dict = new Dictionary<GameObject, float>();
+    Dictionary<GameObject, float> nubi_dict = new Dictionary<GameObject, float>();
     foreach (GameObject nubi in nubis)
     {
       // TODO: calculate distances
       float distance = (resident_pos - nubi.transform.position).sqrMagnitude;
-      distance_dict.Add(nubi, distance);
+      nubi_dict.Add(nubi, distance);
     }
 
     // follow closest nubi
-    if (distance_dict.Count != 0){
-      //float max = distance_dict.Values.Max();
-      float min = distance_dict.Values.Min();
-      //Debug.Log("max/min distance: " + max + " / " + min);
-      if (min < follow_dist * follow_dist){
-        //agent.SetDestination(white_sheep.position);
+    if (nubi_dict.Count != 0){
+      float min_dist = nubi_dict.Values.Min();
+
+      // track the nubi down
+      if (min_dist < follow_dist * follow_dist)
+      {
+        GameObject closest_nubi = FindClosestNubi(nubi_dict);
+        agent.speed = follow_speed;
+        agent.SetDestination(closest_nubi.transform.position);
+      }
+      else
+      {
+        if (!agent.pathPending){
+          if (agent.remainingDistance <= agent.stoppingDistance){
+            if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f){
+              agent.speed = walking_speed;
+              agent.SetDestination(RandomNavmeshLocation(walking_range));
+            }
+          }
+        }
       }
     }
+  }
+
+  private GameObject FindClosestNubi(Dictionary<GameObject, float> nubi_dict)
+  {
+    //var ordered = nubi_dict.OrderBy(x => x.Value);
+    float min_value = nubi_dict.Values.Min();
+    var closest_nubis = nubi_dict.Where(nubi => nubi.Value.Equals(min_value)).Select(nubi => nubi.Key);
+    foreach (GameObject closest_nubi in closest_nubis){
+      return closest_nubi;
+    }
+    return null;
+  }
+
+  // copied from: https://answers.unity.com/questions/475066/how-to-get-a-random-point-on-navmesh.html
+  // credits to Selzier
+  public Vector3 RandomNavmeshLocation(float radius) 
+  {
+    Vector3 randomDirection = Random.insideUnitSphere * radius;
+    randomDirection += transform.position;
+    NavMeshHit hit;
+    Vector3 finalPosition = Vector3.zero;
+    if (NavMesh.SamplePosition(randomDirection, out hit, radius,  NavMesh.AllAreas)) {
+       finalPosition = hit.position;            
+    }
+    return finalPosition;
   }
 
   // Collision
