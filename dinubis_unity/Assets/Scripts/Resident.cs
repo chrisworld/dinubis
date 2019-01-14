@@ -10,25 +10,27 @@ public class Resident : MonoBehaviour {
   public float follow_speed;
   public float walking_range;
   public float walking_speed;
+
   [HideInInspector]
   public bool follow_nubi;
   NavMeshAgent agent;
 
   private GameObject[] nubis;
+  private OSC myOsc;
 
   // Use this for initialization
   void Start () {
     // NavMesh Agent setup
     agent = gameObject.GetComponent<NavMeshAgent>();
 
-    OSC myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();;
+    myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();;
     OscMessage msg = new OscMessage ();
     msg.address = "/soundObject";
     msg.values.Add (transform.position.x);
     msg.values.Add (transform.position.y);
     msg.values.Add (transform.position.z);
     myOsc.Send (msg);
-    Debug.Log("Send message /soundObject");
+    //Debug.Log("Send message /soundObject");
 
   }
   
@@ -105,12 +107,20 @@ public class Resident : MonoBehaviour {
   }
 
   // Collision
-  void OnCollisionEnter(Collision collision){
-    /*
-    if (collision.gameObject.name == "black_sheep"){
-      Debug.Log("Wolf eats black sheep");
-      shepherd.GetComponent<ShepherdAgent>().BlackSheepDead();
+  void OnTriggerEnter(Collider col){
+    if(col.gameObject.CompareTag("Player")){
+      Debug.Log("Collision with Resi");
+      OSCCollisionResi();
+      Destroy(gameObject);
+      OSCCollisionResi();
     }
-    */
+  }
+
+  private void OSCCollisionResi(){
+    OscMessage msg = new OscMessage ();
+    msg.address = "/resiColl";
+    //msg.values.Add (transform.position.x);
+    myOsc.Send (msg);
+    Debug.Log("Send OSC message /resiColl");
   }
 }

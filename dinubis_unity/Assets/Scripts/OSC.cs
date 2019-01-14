@@ -437,7 +437,7 @@ public class OSC : MonoBehaviour
     //inPort  = 6969 + nubis.Length;
 
 		inPort  = 6969;
-    Debug.Log("Inport set to: " + inPort);
+    //Debug.Log("Inport set to: " + inPort);
 
 		OscPacketIO = new UDPPacketIO(outIP, outPort, inPort);
 		AddressTable = new Hashtable();
