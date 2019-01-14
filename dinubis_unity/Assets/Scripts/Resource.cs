@@ -26,7 +26,7 @@ public class Resource : MonoBehaviour {
 
         if (health <= 0)
         {
-            End();
+           // End();
         }
 
     }
