@@ -1,0 +1,24 @@
+
+
+viele Aliens
+jeder Alien hat eigene Frequenz -> additive Synthese
+
+Amplitude abhängig vom Abstand zum Nubi
+
+Frequenz abhängig vom Zustand, d.h. ohne kontakt feste Frequenz
+bei Kontakt Frequenzänderung abhängig von Kontaktstärke
+
+Defensoren, die die Aliens abhalten sollen
+Workers, die die Rohstoffe abbauen
+
+Rohstoffabbau verändert ebenfalls Klang (Filter, Convolution)
+
+
+
+Länge des Musikstücks entspricht der Dauer bis zum Vollständigen Erbeuten des Planeten (alle Rohstoffe abgebaut)
+
+
+PathName-Ersatz
+
+SoundFile.collectIntoBuffer
+

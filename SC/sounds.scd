@@ -122,8 +122,22 @@ SynthDef.new(\sound2, {
 ~synth2.free;
 
 
+/////////////////////////////////
 
+(
+SynthDef.new(\sineOfResi, {
+	arg freq, amp, bus;
+	var sig;
 
+	sig = SinOsc.ar(freq, 0, amp);
+
+	Out.ar(bus, sig);
+}).add;
+)
+
+x = Synth(\sineOfResi, [\freq, 800, \amp, 1, \bus, 0]);
+x.set(\amp, 0.5);
+x.set(\freq, 1200);
 
 
 
