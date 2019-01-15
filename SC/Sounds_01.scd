@@ -7,17 +7,20 @@
 
 ~osc = {|msg, time, replyAddr, recvPort|
 	// Spawning Resi
-	if(msg[0] == '/spawn_resi'){
+	if(msg[0] == '/spawn_resi') {
+		"spawn_resi".postln;
 		~resiSynth[msg[1]] = Synth.new(\sineOfResi, [\freq, msg[2], \amp, msg[3]]);
 	};
 
 	// Distanz-Update-Resi
-	if((msg[0] == '/update_resi') {
+	if(msg[0] == '/update_resi') {
+		"update_resi".postln;
 		~resiSynth[msg[1]].set(\freq, msg[2], \amp, msg[3]);
 	};
 
 	// Collide-Resi
-	if((msg[0] == '/collide_resi') {
+	if(msg[0] == '/collide_resi') {
+		"collide_resi".postln;
 		~resiSynth[msg[1]].set(\freq, msg[2]);
 	};
 };
