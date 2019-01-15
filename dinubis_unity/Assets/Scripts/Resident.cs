@@ -13,6 +13,10 @@ public class Resident : MonoBehaviour {
 
   [HideInInspector]
   public bool follow_nubi;
+  [HideInInspector]
+  public int id;
+  public int freq;
+
   NavMeshAgent agent;
 
   private GameObject[] nubis;
@@ -22,15 +26,9 @@ public class Resident : MonoBehaviour {
   void Start () {
     // NavMesh Agent setup
     agent = gameObject.GetComponent<NavMeshAgent>();
-
-    myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();;
-    OscMessage msg = new OscMessage ();
-    msg.address = "/soundObject";
-    msg.values.Add (transform.position.x);
-    msg.values.Add (transform.position.y);
-    msg.values.Add (transform.position.z);
-    myOsc.Send (msg);
-    //Debug.Log("Send message /soundObject");
+    // OSC init
+    myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();
+    OSCSendSpawnResi();
 
   }
   
@@ -81,6 +79,7 @@ public class Resident : MonoBehaviour {
     }
   }
 
+  // Find the closest nubi and returns him
   private GameObject FindClosestNubi(Dictionary<GameObject, float> nubi_dict)
   {
     //var ordered = nubi_dict.OrderBy(x => x.Value);
@@ -106,7 +105,7 @@ public class Resident : MonoBehaviour {
     return finalPosition;
   }
 
-  // Collision
+  // Collision Trigger
   void OnTriggerEnter(Collider col){
     if(col.gameObject.CompareTag("Player")){
       Debug.Log("Collision with Resi");
@@ -116,11 +115,24 @@ public class Resident : MonoBehaviour {
     }
   }
 
+  // OSC Messages-----
+  // OSC Coll Resi
   private void OSCCollisionResi(){
     OscMessage msg = new OscMessage ();
     msg.address = "/resiColl";
     //msg.values.Add (transform.position.x);
     myOsc.Send (msg);
     Debug.Log("Send OSC message /resiColl");
+  }
+
+  // OSC spawn Resi
+  private void OSCSendSpawnResi(){
+    OscMessage msg = new OscMessage ();
+    msg.address = "/spawn_resi";
+    msg.values.Add (id);
+    msg.values.Add (freq);
+    msg.values.Add (1);
+    myOsc.Send (msg);
+    Debug.Log("Send message /spawn_resi with id: " + id + " freq: " + freq);
   }
 }
