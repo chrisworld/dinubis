@@ -1,21 +1,29 @@
 
 (
 ~soundSourcesGroup = Group.new;
-~resiSynth = Array.fill(10, {arg i; i});
 
 
 
-~osc = {|msg, time, replyAddr, recvPort|
+~osc = { arg msg, time, replyAddr, recvPort;
+
+	// Number of Resi
+	if(msg[0] == '/num_resi') {
+		"num_resi".postln;
+		~numOfResi = msg[1];
+		~resiSynth = Array.fill(~numOfResi, {arg i; i});
+		~ampScale = 1 / ~numOfResi;
+	};
+
 	// Spawning Resi
 	if(msg[0] == '/spawn_resi') {
 		"spawn_resi".postln;
-		~resiSynth[msg[1]] = Synth.new(\sineOfResi, [\freq, msg[2], \amp, msg[3]]);
+		~resiSynth[msg[1]] = Synth.new(\sineOfResi, [\freq, msg[2], \amp, msg[3] * ~ampScale]);
 	};
 
 	// Distanz-Update-Resi
 	if(msg[0] == '/update_resi') {
 		"update_resi".postln;
-		~resiSynth[msg[1]].set(\freq, msg[2], \amp, msg[3]);
+		~resiSynth[msg[1]].set(\freq, msg[2], \amp, msg[3] * ~ampScale);
 	};
 
 	// Collide-Resi
