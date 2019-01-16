@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 
 public class Resource : MonoBehaviour {
@@ -26,7 +27,7 @@ public class Resource : MonoBehaviour {
 
         if (health <= 0)
         {
-           // End();
+           End();
         }
 
     }
@@ -36,4 +37,11 @@ public class Resource : MonoBehaviour {
     void Update () {
 		
 	}
+
+
+    void End ()
+    {
+        Debug.Log("The End.(Looting completed.)");
+        EditorApplication.isPlaying = false;
+    }
 }

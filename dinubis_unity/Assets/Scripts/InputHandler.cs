@@ -33,6 +33,11 @@ public class InputHandler : MonoBehaviour
     {
       player.Jump();
     }
+    // Dig
+    if (checkValidDigKey())
+    {
+      player.Dig();
+    }
   }
 
   // move input reader
@@ -48,6 +53,20 @@ public class InputHandler : MonoBehaviour
       KeyCode.Space,
       KeyCode.Keypad0,
       KeyCode.RightControl
+    };
+    // check valid key
+    foreach (KeyCode key in valid_keys){
+      if (Input.GetKeyDown(key)) return true;
+    }
+    return false;
+  }
+
+  // check valid dig keys
+   public bool checkValidDigKey()
+  {
+    KeyCode[] valid_keys = {
+      KeyCode.K,
+      
     };
     // check valid key
     foreach (KeyCode key in valid_keys){

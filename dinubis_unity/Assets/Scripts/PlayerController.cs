@@ -13,6 +13,12 @@ public class PlayerController : NetworkBehaviour
   public float gravity = -12;
   public float jumpHeight = 0.5f;
 
+
+
+  public float attackDamage = 1f;
+  private float maxDistance = 15f;
+  private Resource resource;
+
   //controls how much the player can turn while in mid air
   public float inAirControl = 1;          
   public bool move_activated = true;
@@ -29,6 +35,7 @@ public class PlayerController : NetworkBehaviour
   private Animator anim;
   private Transform cameraT;
   private CharacterController controller;
+
 
   // start
   void Start()
@@ -83,6 +90,40 @@ public class PlayerController : NetworkBehaviour
       }
     }
   }
+
+
+  
+  public void Dig()  //in InputHandler
+  {
+    if (!isLocalPlayer) {
+      return;
+    };
+
+    
+
+    // if () { //Calculate the distance to resi. 
+ 
+  //float resource_pos = Vector3.Distance(resource.position, transform.position);
+    Vector3 player_pos = gameObject.GetComponent<Transform>().position;
+    //resource = GameObject.FindGameObjectsWithTag("Resource");
+    Vector3 resource_pos = resource.GetComponent<Transform>().position;
+
+        //List<float> distance_list = new List<float>();
+    // Dictionary<GameObject, float> nubi_dict = new Dictionary<GameObject, float>();
+    // foreach (GameObject nubi in nubis)
+    // {
+      // TODO: calculate distances
+      float distance = (player_pos - resource_pos).sqrMagnitude;
+      // nubi_dict.Add(nubi, distance);
+    //}
+
+      if (distance < maxDistance) {
+          resource.TakeDamage(attackDamage);
+      }
+    
+  }
+
+
 
   // play the flute
   public void GetAttacked()
