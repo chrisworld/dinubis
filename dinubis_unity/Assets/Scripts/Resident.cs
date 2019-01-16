@@ -16,7 +16,7 @@ public class Resident : NetworkBehaviour {
   public bool follow_nubi;
   [HideInInspector]
   public int id;
-  public int freq;
+  public float freq;
 
   NavMeshAgent agent;
 
@@ -44,7 +44,7 @@ public class Resident : NetworkBehaviour {
   private void CalculateDistances()
   {
     // calculate distances
-    Vector3 resident_pos = gameObject.GetComponent<Transform>().position;
+    //Vector3 resident_pos = gameObject.GetComponent<Transform>().position;
     nubis = GameObject.FindGameObjectsWithTag("Player");
 
     //List<float> distance_list = new List<float>();
@@ -53,14 +53,18 @@ public class Resident : NetworkBehaviour {
     // run all nubis in game
     foreach (GameObject nubi in nubis)
     {
-      float distance = (resident_pos - nubi.transform.position).sqrMagnitude;
+      float distance = (gameObject.transform.position - nubi.transform.position).sqrMagnitude;
       nubi_dict.Add(nubi, distance);
       
       // find local player and set synth params
       if (nubi.GetComponent<NetworkIdentity>().isLocalPlayer){
         float norm_dist = 1 - ( distance / follow_dist_sqr );
         //Debug.Log("Localplayer nubi with distance: " + distance + " norm dist: " + Mathf.Clamp(norm_dist, 0, 1));
-        OSCSendUpdateResi(freq, Mathf.Clamp(norm_dist, 0, 1));
+        // calculate Rotation to player
+        float norm_rot =  Mathf.Abs((gameObject.transform.rotation.eulerAngles.y - nubi.transform.rotation.eulerAngles.y) / 180);
+        //Debug.Log("Rotation: " + norm_rot);
+
+        OSCSendUpdateResi(freq + 10 * norm_rot, Mathf.Clamp(norm_dist, 0, 1));
       }
     }
 
@@ -118,9 +122,7 @@ public class Resident : NetworkBehaviour {
   // Collision Trigger
   void OnTriggerEnter(Collider col){
     if(col.gameObject.CompareTag("Player")){
-      Debug.Log("Collision with Resi");
-      OSCCollisionResi();
-      Destroy(gameObject);
+      freq = Mathf.Clamp(freq + Random.Range(-20, 20), 20, 1000);
       OSCCollisionResi();
     }
   }
@@ -130,9 +132,9 @@ public class Resident : NetworkBehaviour {
   private void OSCCollisionResi(){
     OscMessage msg = new OscMessage ();
     msg.address = "/resiColl";
-    //msg.values.Add (transform.position.x);
+    msg.values.Add (freq);
     myOsc.Send (msg);
-    Debug.Log("Send OSC message /resiColl");
+    Debug.Log("Send OSC message /resiColl new freq: " + freq);
   }
 
   // OSC spawn Resi
@@ -147,7 +149,7 @@ public class Resident : NetworkBehaviour {
   }
 
   // OSC update Resi
-  private void OSCSendUpdateResi(int f, float mag){
+  private void OSCSendUpdateResi(float f, float mag){
     OscMessage msg = new OscMessage ();
     msg.address = "/update_resi";
     msg.values.Add (id);
