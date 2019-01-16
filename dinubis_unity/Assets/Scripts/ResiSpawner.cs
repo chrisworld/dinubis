@@ -21,7 +21,7 @@ public class ResiSpawner : NetworkBehaviour {
 
       GameObject resi = (GameObject)Instantiate (resi_prefab, spawnPosition, spawnRotation);
       resi.GetComponent<Resident>().id = index;
-      resi.GetComponent<Resident>().freq = index * 60 + 20;
+      resi.GetComponent<Resident>().freq = index * 60 + 50;
       NetworkServer.Spawn (resi);
     }
   }
