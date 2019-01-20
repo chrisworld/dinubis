@@ -90,14 +90,17 @@ public class PlayerController : NetworkBehaviour
       if (animationSpeedPercent > 0.1 && animationSpeedPercent < 0.6 && !walk){
         walk = true;
         run = false;
+        OSCPlayerWalk();
       }
       else if (animationSpeedPercent > 0.6 && !run){
         run = true;
         walk = false;
+        OSCPlayerRun();
       }
       else if (animationSpeedPercent < 0.1 && (walk || run)){
         walk = false;
         run = false;
+        OSCPlayerStop();
       }
     }
   }
@@ -145,14 +148,37 @@ public class PlayerController : NetworkBehaviour
     }
   }
 
-  //OSC Message                                       //OSCPlayerMove(); Function place?
-  private void OSCPlayerMove(){
+  //OSC Messages
+
+  //Player Walk
+  private void OSCPlayerWalk(){
   OscMessage msg = new OscMessage ();
   msg.address = "/player_move";
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
-  Debug.Log("Send OSC message /player_move");
+  Debug.Log("Send OSC message /player_walk");
   }
+
+  //Player Run
+  private void OSCPlayerRun(){
+  OscMessage msg = new OscMessage ();
+  msg.address = "/player_run";
+  //msg.values.Add (transform.position.x);
+  myOsc.Send (msg);
+  Debug.Log("Send OSC message /player_run");
+  }
+
+  //Player Stop
+  private void OSCPlayerStop(){
+  OscMessage msg = new OscMessage ();
+  msg.address = "/player_stop";
+  //msg.values.Add (transform.position.x);
+  myOsc.Send (msg);
+  Debug.Log("Send OSC message /player_stop");
+  }
+
+
+
   //--
 
 

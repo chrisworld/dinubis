@@ -711,9 +711,20 @@ Prefab:
       propertyPath: m_FillAmount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114849326086529858, guid: 5033cdc650fe446358e512ee39ae0aa5,
+        type: 2}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 711947227}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5033cdc650fe446358e512ee39ae0aa5, type: 2}
   m_IsPrefabAsset: 0
+--- !u!114 &711947227 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114044114483979934, guid: 5033cdc650fe446358e512ee39ae0aa5,
+    type: 2}
+  m_PrefabInternal: {fileID: 711947226}
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &844664585
 GameObject:
   m_ObjectHideFlags: 0

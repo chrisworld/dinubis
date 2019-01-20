@@ -51,6 +51,15 @@ public class Resource : MonoBehaviour {
   }
 
 
+  private void OSCEnd(){
+  OscMessage msg = new OscMessage ();
+  msg.address = "/end";
+  //msg.values.Add (transform.position.x);
+  myOsc.Send (msg);
+  Debug.Log("Send OSC message /resource_end");
+  }
+
+
     // Update is called once per frame
     void Update () {
 		
@@ -60,6 +69,7 @@ public class Resource : MonoBehaviour {
     void End ()
     {
         Debug.Log("The End.(Looting completed.)");
+        OSCEnd();
         EditorApplication.isPlaying = false;
     }
 }
