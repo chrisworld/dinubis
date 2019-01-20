@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Networking;
 
-public class Resident : MonoBehaviour {
+public class Resident : NetworkBehaviour {
 
   public float follow_dist;
   public float follow_speed;
@@ -15,12 +16,13 @@ public class Resident : MonoBehaviour {
   public bool follow_nubi;
   [HideInInspector]
   public int id;
-  public int freq;
+  public float freq;
 
   NavMeshAgent agent;
 
   private GameObject[] nubis;
   private OSC myOsc;
+  private float follow_dist_sqr;
 
   // Use this for initialization
   void Start () {
@@ -29,7 +31,7 @@ public class Resident : MonoBehaviour {
     // OSC init
     myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();
     OSCSendSpawnResi();
-
+    follow_dist_sqr = follow_dist * follow_dist;
   }
   
   // Update is called once per frame
@@ -42,24 +44,36 @@ public class Resident : MonoBehaviour {
   private void CalculateDistances()
   {
     // calculate distances
-    Vector3 resident_pos = gameObject.GetComponent<Transform>().position;
+    //Vector3 resident_pos = gameObject.GetComponent<Transform>().position;
     nubis = GameObject.FindGameObjectsWithTag("Player");
 
     //List<float> distance_list = new List<float>();
     Dictionary<GameObject, float> nubi_dict = new Dictionary<GameObject, float>();
+
+    // run all nubis in game
     foreach (GameObject nubi in nubis)
     {
-      // TODO: calculate distances
-      float distance = (resident_pos - nubi.transform.position).sqrMagnitude;
+      float distance = (gameObject.transform.position - nubi.transform.position).sqrMagnitude;
       nubi_dict.Add(nubi, distance);
+      
+      // find local player and set synth params
+      if (nubi.GetComponent<NetworkIdentity>().isLocalPlayer){
+        float norm_dist = 1 - ( distance / follow_dist_sqr );
+        //Debug.Log("Localplayer nubi with distance: " + distance + " norm dist: " + Mathf.Clamp(norm_dist, 0, 1));
+        // calculate Rotation to player
+        float norm_rot =  Mathf.Abs((gameObject.transform.rotation.eulerAngles.y - nubi.transform.rotation.eulerAngles.y) / 180);
+        //Debug.Log("Rotation: " + norm_rot);
+
+        OSCSendUpdateResi(freq + 10 * norm_rot, Mathf.Clamp(norm_dist, 0, 1));
+      }
     }
 
-    // follow closest nubi
+    // follow closest nubi via nav agent
     if (nubi_dict.Count != 0){
       float min_dist = nubi_dict.Values.Min();
 
       // track the nubi down
-      if (min_dist < follow_dist * follow_dist)
+      if (min_dist < follow_dist_sqr)
       {
         GameObject closest_nubi = FindClosestNubi(nubi_dict);
         agent.speed = follow_speed;
@@ -108,9 +122,7 @@ public class Resident : MonoBehaviour {
   // Collision Trigger
   void OnTriggerEnter(Collider col){
     if(col.gameObject.CompareTag("Player")){
-      Debug.Log("Collision with Resi");
-      OSCCollisionResi();
-      Destroy(gameObject);
+      freq = Mathf.Clamp(freq + Random.Range(-20, 20), 20, 1000);
       OSCCollisionResi();
     }
   }
@@ -120,9 +132,9 @@ public class Resident : MonoBehaviour {
   private void OSCCollisionResi(){
     OscMessage msg = new OscMessage ();
     msg.address = "/resiColl";
-    //msg.values.Add (transform.position.x);
+    msg.values.Add (freq);
     myOsc.Send (msg);
-    Debug.Log("Send OSC message /resiColl");
+    Debug.Log("Send OSC message /resiColl new freq: " + freq);
   }
 
   // OSC spawn Resi
@@ -131,8 +143,19 @@ public class Resident : MonoBehaviour {
     msg.address = "/spawn_resi";
     msg.values.Add (id);
     msg.values.Add (freq);
-    msg.values.Add (1);
+    msg.values.Add (0);
     myOsc.Send (msg);
     Debug.Log("Send message /spawn_resi with id: " + id + " freq: " + freq);
+  }
+
+  // OSC update Resi
+  private void OSCSendUpdateResi(float f, float mag){
+    OscMessage msg = new OscMessage ();
+    msg.address = "/update_resi";
+    msg.values.Add (id);
+    msg.values.Add (f);
+    msg.values.Add (mag);
+    myOsc.Send (msg);
+    //Debug.Log("Send message /update_resi with id: " + id + " freq: " + freq);
   }
 }
