@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -17,7 +18,14 @@ public class PlayerController : NetworkBehaviour
 
   public float attackDamage = 1f;
   private float maxDistance = 15f;
+  private float maxDistanceResi = 50f;
   private Resource resource;
+  private GameObject[] resources;
+  private GameObject[] resis;
+  private OSC myOsc;
+
+
+
 
   //controls how much the player can turn while in mid air
   public float inAirControl = 1;          
@@ -43,6 +51,9 @@ public class PlayerController : NetworkBehaviour
     anim = GetComponentInChildren<Animator>();
     cameraT = Camera.main.transform;
     controller = GetComponent<CharacterController>();
+    myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();
+
+
   }
 
   // Move Character
@@ -99,30 +110,50 @@ public class PlayerController : NetworkBehaviour
       return;
     };
 
+    // Find objects
+    resources = GameObject.FindGameObjectsWithTag("Resource");
+    resis = GameObject.FindGameObjectsWithTag("Resident");
+
+    foreach (GameObject resi in resis) //
+    { 
+      Vector3 player_pos = gameObject.GetComponent<Transform>().position;
+      Vector3 resi_pos = resi.GetComponent<Transform>().position;
+      float distance_resi = (player_pos - resi_pos).sqrMagnitude;
     
+      if (distance_resi > maxDistanceResi) {
 
-    // if () { //Calculate the distance to resi. 
- 
-  //float resource_pos = Vector3.Distance(resource.position, transform.position);
-    Vector3 player_pos = gameObject.GetComponent<Transform>().position;
-    //resource = GameObject.FindGameObjectsWithTag("Resource");
-    Vector3 resource_pos = resource.GetComponent<Transform>().position;
+        foreach (GameObject resource in resources)
+        {
 
-        //List<float> distance_list = new List<float>();
-    // Dictionary<GameObject, float> nubi_dict = new Dictionary<GameObject, float>();
-    // foreach (GameObject nubi in nubis)
-    // {
-      // TODO: calculate distances
-      float distance = (player_pos - resource_pos).sqrMagnitude;
-      // nubi_dict.Add(nubi, distance);
-    //}
+        //float resource_pos = Vector3.Distance(resource.position, transform.position);
+    
+        //resource = GameObject.FindGameObjectsWithTag("Resource");
+        Vector3 resource_pos = resource.GetComponent<Transform>().position;
+        float distance_resource = (player_pos - resource_pos).sqrMagnitude;
 
-      if (distance < maxDistance) {
-          resource.TakeDamage(attackDamage);
+          if (distance_resource < maxDistance) {
+            
+            //health_bar = transform.Find("Resource").gameObject.GetComponent<Image>();
+            //health_bar = resource.transform.GetChild(1).GetComponent<HealthBar>();
+            //health_bar = GameObject.FindGameObjectsWithTag("HealthBar");
+            //health_bar = resource.transform.Find("HealthBar").gameObject;
+            //resource.TakeDamage(attackDamage);
+            resource.GetComponent<Resource>().TakeDamage(attackDamage);
+          } 
+        }
       }
-    
+    }
   }
 
+  //OSC Message                                       //OSCPlayerMove(); Function place?
+  private void OSCPlayerMove(){
+  OscMessage msg = new OscMessage ();
+  msg.address = "/player_move";
+  //msg.values.Add (transform.position.x);
+  myOsc.Send (msg);
+  Debug.Log("Send OSC message /player_move");
+  }
+  //--
 
 
   // play the flute
@@ -153,5 +184,4 @@ public class PlayerController : NetworkBehaviour
     else if (inAirControl == 0) return float.MaxValue;
     else return (smoothTime / inAirControl);
   }
-
 }
