@@ -75,14 +75,14 @@
 		"player_run".postln;
 		Synth.new(\hey, [\buffer, b[\movement][1]]);
 	};
-
+*/
 	// Resource_dig
 	if(msg[0] == '/resource_dig') {
 		"resource_dig".postln;
 		Synth.new(\dig, [\buffer, b[\hihat][rrand(0,21)], \rate, rrand(0.1, 0.4)]);
 	};
 
-*/
+
 
 };
 

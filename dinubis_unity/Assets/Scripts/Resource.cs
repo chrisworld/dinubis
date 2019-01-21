@@ -11,9 +11,11 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
     private OSC myOsc;
     private Image healthslide;
 
-    [SyncVar]
+    //[SyncVar]
     public float health = 100;
 
+    [SyncVar]
+    public float juergen = 1f;
 
     [Header("Unity")]
     public Image healthBar;
@@ -37,7 +39,8 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
 
         else {
         health -= amount;
-        healthBar.fillAmount = health / 100f;
+        juergen = health / 100f;
+        Debug.Log("health: "+health);
         OSCDig();
         }
     }
@@ -63,7 +66,7 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
 
     // Update is called once per frame
     void Update () {
-		
+        healthBar.fillAmount = juergen;
 	}
 
 
