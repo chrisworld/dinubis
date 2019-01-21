@@ -12,10 +12,13 @@ public class Resident : NetworkBehaviour {
   public float walking_range;
   public float walking_speed;
 
+  public Vector3 spawner_pos;
+
   [HideInInspector]
   public bool follow_nubi;
   [HideInInspector]
   public int id;
+
   public float freq;
 
   NavMeshAgent agent;
@@ -110,7 +113,11 @@ public class Resident : NetworkBehaviour {
   public Vector3 RandomNavmeshLocation(float radius) 
   {
     Vector3 randomDirection = Random.insideUnitSphere * radius;
-    randomDirection += transform.position;
+    
+    // random position around the spawner
+    randomDirection += spawner_pos;
+    //randomDirection += transform.position;
+
     NavMeshHit hit;
     Vector3 finalPosition = Vector3.zero;
     if (NavMesh.SamplePosition(randomDirection, out hit, radius,  NavMesh.AllAreas)) {
