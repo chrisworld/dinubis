@@ -81,7 +81,7 @@
 	Synth.new(\dig, [\buffer, b[\hihat][rrand(0,21)], \rate, rrand(0.1, 0.4)]);
 	};
 
-	*/
+*/
 
 };
 
