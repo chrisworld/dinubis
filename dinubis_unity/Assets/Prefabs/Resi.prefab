@@ -893,6 +893,8 @@ MonoBehaviour:
   follow_speed: 3.5
   walking_range: 20
   walking_speed: 1
+  hearing_dist: 20
+  rot_phase_shift: 10
   spawner_pos: {x: 0, y: 0, z: 0}
   follow_nubi: 0
   id: 0

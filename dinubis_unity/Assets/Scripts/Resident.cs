@@ -11,9 +11,12 @@ public class Resident : NetworkBehaviour {
   public float follow_speed;
   public float walking_range;
   public float walking_speed;
+  public float hearing_dist;
 
+  public float rot_phase_shift = 10;
+
+  [HideInInspector]
   public Vector3 spawner_pos;
-
   [HideInInspector]
   public bool follow_nubi;
   [HideInInspector]
@@ -26,6 +29,8 @@ public class Resident : NetworkBehaviour {
   private GameObject[] nubis;
   private OSC myOsc;
   private float follow_dist_sqr;
+  private float hearing_dist_sqr;
+  private int active_nubis;
 
   // Use this for initialization
   void Start () {
@@ -35,6 +40,8 @@ public class Resident : NetworkBehaviour {
     myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();
     OSCSendSpawnResi();
     follow_dist_sqr = follow_dist * follow_dist;
+    hearing_dist_sqr = hearing_dist * hearing_dist;
+    active_nubis = 0;
   }
   
   // Update is called once per frame
@@ -54,22 +61,33 @@ public class Resident : NetworkBehaviour {
     Dictionary<GameObject, float> nubi_dict = new Dictionary<GameObject, float>();
 
     // run all nubis in game
+    int cur_active_nubis = 0;
     foreach (GameObject nubi in nubis)
     {
       float distance = (gameObject.transform.position - nubi.transform.position).sqrMagnitude;
       nubi_dict.Add(nubi, distance);
       
+      // nubi in hearing distance
+      if (distance < hearing_dist_sqr){
+        cur_active_nubis += 1;
+      }
+
       // find local player and set synth params
       if (nubi.GetComponent<NetworkIdentity>().isLocalPlayer){
-        float norm_dist = 1 - ( distance / follow_dist_sqr );
-        //Debug.Log("Localplayer nubi with distance: " + distance + " norm dist: " + Mathf.Clamp(norm_dist, 0, 1));
+        float norm_dist = 1 - ( distance / hearing_dist_sqr );
         // calculate Rotation to player
+        float height = nubi.GetComponent<Transform>().position.y / 10;
         float norm_rot =  Mathf.Abs((gameObject.transform.rotation.eulerAngles.y - nubi.transform.rotation.eulerAngles.y) / 180);
-        //Debug.Log("Rotation: " + norm_rot);
-
-        OSCSendUpdateResi(freq + 10 * norm_rot, Mathf.Clamp(norm_dist, 0.01, 1));
+        OSCSendUpdateResi(freq + rot_phase_shift * norm_rot, Mathf.Clamp(norm_dist, 0, 1), Mathf.Clamp(height, 0, 1));
       }
     }
+
+    // normalize Sound output
+    if (cur_active_nubis != active_nubis){
+      active_nubis = cur_active_nubis;
+      OSCSendNumResi(active_nubis);
+    }
+
 
     // follow closest nubi via nav agent
     if (nubi_dict.Count != 0){
@@ -156,13 +174,25 @@ public class Resident : NetworkBehaviour {
   }
 
   // OSC update Resi
-  private void OSCSendUpdateResi(float f, float mag){
+  private void OSCSendUpdateResi(float f, float mag, float height){
     OscMessage msg = new OscMessage ();
     msg.address = "/update_resi";
     msg.values.Add (id);
     msg.values.Add (f);
     msg.values.Add (mag);
+    msg.values.Add (height);
     myOsc.Send (msg);
-    //Debug.Log("Send message /update_resi with id: " + id + " freq: " + freq + " mag: " + mag);
+    //Debug.Log("Send message /update_resi with id: " + id + " freq: " + freq + " mag: " + mag + " height: " + height);
+  }
+
+  // OSC Send num Resi
+  private void OSCSendNumResi(int n_resi)
+  {
+    OSC myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();;
+    OscMessage msg = new OscMessage ();
+    msg.address = "/num_resi";
+    msg.values.Add (n_resi);
+    myOsc.Send (msg);
+    Debug.Log("Send resi num: " + n_resi);
   }
 }
