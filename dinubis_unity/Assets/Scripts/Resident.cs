@@ -21,6 +21,8 @@ public class Resident : NetworkBehaviour {
   public bool follow_nubi;
   [HideInInspector]
   public int id;
+  [HideInInspector]
+  public bool in_hearing_dist;
 
   public float freq;
 
@@ -30,7 +32,6 @@ public class Resident : NetworkBehaviour {
   private OSC myOsc;
   private float follow_dist_sqr;
   private float hearing_dist_sqr;
-  private int active_nubis;
 
   // Use this for initialization
   void Start () {
@@ -41,7 +42,6 @@ public class Resident : NetworkBehaviour {
     OSCSendSpawnResi();
     follow_dist_sqr = follow_dist * follow_dist;
     hearing_dist_sqr = hearing_dist * hearing_dist;
-    active_nubis = 0;
   }
   
   // Update is called once per frame
@@ -61,19 +61,17 @@ public class Resident : NetworkBehaviour {
     Dictionary<GameObject, float> nubi_dict = new Dictionary<GameObject, float>();
 
     // run all nubis in game
-    int cur_active_nubis = 0;
     foreach (GameObject nubi in nubis)
     {
       float distance = (gameObject.transform.position - nubi.transform.position).sqrMagnitude;
       nubi_dict.Add(nubi, distance);
       
-      // nubi in hearing distance
-      if (distance < hearing_dist_sqr){
-        cur_active_nubis += 1;
-      }
-
       // find local player and set synth params
       if (nubi.GetComponent<NetworkIdentity>().isLocalPlayer){
+        // nubi in hearing distance
+        if (distance < hearing_dist_sqr) in_hearing_dist = true;
+        else in_hearing_dist = false;
+
         float norm_dist = 1 - ( distance / hearing_dist_sqr );
         // calculate Rotation to player
         float height = nubi.GetComponent<Transform>().position.y / 10;
@@ -82,11 +80,6 @@ public class Resident : NetworkBehaviour {
       }
     }
 
-    // normalize Sound output
-    if (cur_active_nubis != active_nubis){
-      active_nubis = cur_active_nubis;
-      OSCSendNumResi(active_nubis);
-    }
 
 
     // follow closest nubi via nav agent
