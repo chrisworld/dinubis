@@ -62,8 +62,30 @@
 		"contact_hey".postln;
 		Synth.new(\hey, [\buffer, b[\hey][0]]);
 	};
-};
 
+	// Player_move
+	if(msg[0] == '/player_move') {
+		"player_move".postln;
+		Synth.new(\hey, [\buffer, b[\movement][0]]);
+	};
+
+
+	// Pllayer_run
+	if(msg[0] == '/player_run') {
+		"player_run".postln;
+		Synth.new(\hey, [\buffer, b[\movement][1]]);
+	};
+
+	// Resource_dig
+	if(msg[0] == '/resource_dig') {
+		"resource_dig".postln;
+		Synth.new(\dig, [\buffer, b[\hihat][rrand(0,21)], \rate, rrand(0.1, 0.4)]);
+	};
+
+
+
+
+};
 
 
 //	SynthDefs
@@ -96,6 +118,14 @@ SynthDef.new(\hey, {
 	Out.ar(0, Pan2.ar(sig, pos));
 }).add;
 
+
+
+SynthDef.new(\dig, {| out = 0, buffer = 0, rate |
+
+    Out.ar(out,
+        PlayBuf.ar(2, buffer, rate,1, 0, 0, doneAction: 2) * 0.5
+    )
+}).add;
 
 
 /////////////////////////////////////////////
