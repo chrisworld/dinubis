@@ -56,7 +56,7 @@
 		"collide_resi".postln;
 		~resiSynth[msg[1]].set(\freq, msg[2]);
 	};
-
+/*
 	// Contact - Hey
 	if(msg[0] == '/hey') {
 		"contact_hey".postln;
@@ -82,8 +82,7 @@
 		Synth.new(\dig, [\buffer, b[\hihat][rrand(0,21)], \rate, rrand(0.1, 0.4)]);
 	};
 
-
-
+*/
 
 };
 
@@ -91,9 +90,12 @@
 //	SynthDefs
 SynthDef.new(\sineOfResi, {
 	arg freq, amp, bus, pos = 0;
-	var sig;
+	var sig, freqArray, ampArray;
 
-	sig = SinOsc.ar(freq, 0, amp);
+	freqArray = Array.fill(10, { |i| i=i+1; freq * i });
+	ampArray = Array.fill(10, { |i| i=i+1; (amp * i).reciprocal });
+
+	sig = Klang.ar(`[freqArray, ampArray, nil]);
 
 	Out.ar(bus, Pan2.ar(sig, pos));
 }).add;
