@@ -47,7 +47,6 @@
 
 	// Distanz-Update-Resi
 	if(msg[0] == '/update_resi') {
-		"update_resi".postln;
 		~resiSynth[msg[1]].set(\freq, msg[2], \amp, msg[3] * ~ampScale);
 	};
 
@@ -56,33 +55,33 @@
 		"collide_resi".postln;
 		~resiSynth[msg[1]].set(\freq, msg[2]);
 	};
-/*
+	/*
 	// Contact - Hey
 	if(msg[0] == '/hey') {
-		"contact_hey".postln;
-		Synth.new(\hey, [\buffer, b[\hey][0]]);
+	"contact_hey".postln;
+	Synth.new(\hey, [\buffer, b[\hey][0]]);
 	};
 
 	// Player_move
 	if(msg[0] == '/player_move') {
-		"player_move".postln;
-		Synth.new(\hey, [\buffer, b[\movement][0]]);
+	"player_move".postln;
+	Synth.new(\hey, [\buffer, b[\movement][0]]);
 	};
 
 
 	// Player_run
 	if(msg[0] == '/player_run') {
-		"player_run".postln;
-		Synth.new(\hey, [\buffer, b[\movement][1]]);
+	"player_run".postln;
+	Synth.new(\hey, [\buffer, b[\movement][1]]);
 	};
-*/
+
 	// Resource_dig
 	if(msg[0] == '/resource_dig') {
-		"resource_dig".postln;
-		Synth.new(\dig, [\buffer, b[\hihat][rrand(0,21)], \rate, rrand(0.1, 0.4)]);
+	"resource_dig".postln;
+	Synth.new(\dig, [\buffer, b[\hihat][rrand(0,21)], \rate, rrand(0.1, 0.4)]);
 	};
 
-
+*/
 
 };
 
@@ -93,11 +92,12 @@ SynthDef.new(\sineOfResi, {
 	var sig, freqArray, ampArray;
 
 	freqArray = Array.fill(10, { |i| i=i+1; freq * i });
-	ampArray = Array.fill(10, { |i| i=i+1; (amp * i).reciprocal });
+	ampArray = Array.fill(10, { |j| j=j+1; amp * (1/j) }).normalizeSum;
+	ampArray.poll;
 
 	sig = Klang.ar(`[freqArray, ampArray, nil]);
 
-	Out.ar(bus, Pan2.ar(sig, pos));
+	Out.ar(bus, Limiter.ar(Pan2.ar(sig, pos)));
 }).add;
 
 
@@ -117,16 +117,16 @@ SynthDef.new(\hey, {
 
 	sig = PlayBuf.ar(1, buffer, BufRateScale.kr(buffer) * freq, loop: 0, doneAction: 2);
 
-	Out.ar(0, Pan2.ar(sig, pos));
+	Out.ar(0, Limiter.ar(Pan2.ar(sig, pos)));
 }).add;
 
 
 
 SynthDef.new(\dig, {| out = 0, buffer = 0, rate |
 
-    Out.ar(out,
-        PlayBuf.ar(2, buffer, rate,1, 0, 0, doneAction: 2) * 0.5
-    )
+	Out.ar(out,
+		PlayBuf.ar(2, buffer, rate,1, 0, 0, doneAction: 2) * 0.5
+	)
 }).add;
 
 
