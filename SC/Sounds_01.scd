@@ -70,7 +70,7 @@
 	};
 
 
-	// Pllayer_run
+	// Player_run
 	if(msg[0] == '/player_run') {
 		"player_run".postln;
 		Synth.new(\hey, [\buffer, b[\movement][1]]);
@@ -90,12 +90,12 @@
 
 //	SynthDefs
 SynthDef.new(\sineOfResi, {
-	arg freq, amp, bus;
+	arg freq, amp, bus, pos = 0;
 	var sig;
 
 	sig = SinOsc.ar(freq, 0, amp);
 
-	Out.ar(bus, sig);
+	Out.ar(bus, Pan2.ar(sig, pos));
 }).add;
 
 
