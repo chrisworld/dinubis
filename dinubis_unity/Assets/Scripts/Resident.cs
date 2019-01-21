@@ -163,6 +163,6 @@ public class Resident : NetworkBehaviour {
     msg.values.Add (f);
     msg.values.Add (mag);
     myOsc.Send (msg);
-    Debug.Log("Send message /update_resi with id: " + id + " freq: " + freq + " mag: " + mag);
+    //Debug.Log("Send message /update_resi with id: " + id + " freq: " + freq + " mag: " + mag);
   }
 }
