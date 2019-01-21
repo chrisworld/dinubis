@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
+using UnityEngine.Networking;
 
-
-public class Resource : MonoBehaviour {
+public class Resource : NetworkBehaviour { //MonoBehaviour
 
 
     private OSC myOsc;
-
-    public float health = 100;
     private Image healthslide;
+
+    [SyncVar]
+    public float health = 100;
+
 
     [Header("Unity")]
     public Image healthBar;
