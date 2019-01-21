@@ -113,7 +113,7 @@ public class Resident : NetworkBehaviour {
   public Vector3 RandomNavmeshLocation(float radius) 
   {
     Vector3 randomDirection = Random.insideUnitSphere * radius;
-    
+
     // random position around the spawner
     randomDirection += spawner_pos;
     //randomDirection += transform.position;
@@ -163,6 +163,6 @@ public class Resident : NetworkBehaviour {
     msg.values.Add (f);
     msg.values.Add (mag);
     myOsc.Send (msg);
-    //Debug.Log("Send message /update_resi with id: " + id + " freq: " + freq);
+    Debug.Log("Send message /update_resi with id: " + id + " freq: " + freq + " mag: " + mag);
   }
 }
