@@ -889,10 +889,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21f7aca9c9d4d6469ab38ef71f6db49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  follow_dist: 30
+  follow_dist: 20
   follow_speed: 3.5
-  walking_range: 10
+  walking_range: 20
   walking_speed: 1
+  spawner_pos: {x: 0, y: 0, z: 0}
   follow_nubi: 0
   id: 0
   freq: 0

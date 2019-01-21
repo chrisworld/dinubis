@@ -8,6 +8,7 @@ public class ResiSpawner : NetworkBehaviour {
   public Transform spawn_center;
   public GameObject resi_prefab;
   public int n_resi = 1;
+  public int base_freq = 60;
 
   // Use this for initialization
   public override void OnStartServer () // This is invoked for NetworkBehaviour objects when they become active on the server.
@@ -21,7 +22,9 @@ public class ResiSpawner : NetworkBehaviour {
 
       GameObject resi = (GameObject)Instantiate (resi_prefab, spawnPosition, spawnRotation);
       resi.GetComponent<Resident>().id = index;
-      resi.GetComponent<Resident>().freq = index * 20 + 50;
+      resi.GetComponent<Resident>().freq = index * base_freq + base_freq;
+      resi.GetComponent<Resident>().spawner_pos = gameObject.transform.position;
+
       NetworkServer.Spawn (resi);
     }
   }
