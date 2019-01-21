@@ -27,7 +27,7 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
         //healthslide = GameObject.FindGameObjectsWithTag("HealthBar");
 	}
 	
-
+    //[SyncEvent]
     public void TakeDamage (float amount)
     {
         if (health <= 0)
@@ -37,7 +37,6 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
 
         else {
         health -= amount;
-
         healthBar.fillAmount = health / 100f;
         OSCDig();
         }
