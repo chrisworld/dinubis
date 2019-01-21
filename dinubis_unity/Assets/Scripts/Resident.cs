@@ -67,7 +67,7 @@ public class Resident : NetworkBehaviour {
         float norm_rot =  Mathf.Abs((gameObject.transform.rotation.eulerAngles.y - nubi.transform.rotation.eulerAngles.y) / 180);
         //Debug.Log("Rotation: " + norm_rot);
 
-        OSCSendUpdateResi(freq + 10 * norm_rot, Mathf.Clamp(norm_dist, 0, 1));
+        OSCSendUpdateResi(freq + 10 * norm_rot, Mathf.Clamp(norm_dist, 0.01, 1));
       }
     }
 
