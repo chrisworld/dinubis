@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using System.Linq;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -17,12 +18,14 @@ public class PlayerController : NetworkBehaviour
 
 
   public float attackDamage = 1f;
-  private float maxDistance = 15f;
-  private float maxDistanceResi = 50f;
+  private float maxDistance = 10f;
+  private float maxDistanceResi = 75f;
   private Resource resource;
   private GameObject[] resources;
   private GameObject[] resis;
   private OSC myOsc;
+  //private float distance_resi;
+  //private float distance_resource;
 
 
 
@@ -117,36 +120,56 @@ public class PlayerController : NetworkBehaviour
     resources = GameObject.FindGameObjectsWithTag("Resource");
     resis = GameObject.FindGameObjectsWithTag("Resident");
 
-    foreach (GameObject resi in resis) //
+    //Calculate distances
+    Dictionary<GameObject, float> resi_dict = new Dictionary<GameObject, float>();
+    Dictionary<GameObject, float> resource_dict = new Dictionary<GameObject, float>();
+
+
+    foreach (GameObject resi in resis)
     { 
       Vector3 player_pos = gameObject.GetComponent<Transform>().position;
       Vector3 resi_pos = resi.GetComponent<Transform>().position;
       float distance_resi = (player_pos - resi_pos).sqrMagnitude;
-    
-      if (distance_resi > maxDistanceResi) {
+      resi_dict.Add(resi, distance_resi);
 
-        foreach (GameObject resource in resources)
-        {
-
-        //float resource_pos = Vector3.Distance(resource.position, transform.position);
+    }
     
-        //resource = GameObject.FindGameObjectsWithTag("Resource");
+    foreach (GameObject resource in resources)
+    {
+        Vector3 player_pos = gameObject.GetComponent<Transform>().position;
         Vector3 resource_pos = resource.GetComponent<Transform>().position;
         float distance_resource = (player_pos - resource_pos).sqrMagnitude;
+        resource_dict.Add(resource, distance_resource);
+        //Debug.Log("distance_resource: "+distance_resource);
+    }
 
-          if (distance_resource < maxDistance) {
-            
-            //health_bar = transform.Find("Resource").gameObject.GetComponent<Image>();
-            //health_bar = resource.transform.GetChild(1).GetComponent<HealthBar>();
-            //health_bar = GameObject.FindGameObjectsWithTag("HealthBar");
-            //health_bar = resource.transform.Find("HealthBar").gameObject;
-            //resource.TakeDamage(attackDamage);
-            resource.GetComponent<Resource>().TakeDamage(attackDamage);
-          } 
-        }
+    float min_resi_dist = resi_dict.Values.Min();   //resi_dict.distance_resi.Min();
+    float min_resource_dist = resource_dict.Values.Min(); //resource_dict.distance_resource.Min();
+
+    if (min_resource_dist < maxDistance) {  //distance_resource
+      if (min_resi_dist > maxDistanceResi) {   //distance_resi
+        GameObject closestResource = FindClosestResource(resource_dict);
+        closestResource.GetComponent<Resource>().CmdTakeDamage(attackDamage);
       }
     }
   }
+
+
+
+ private GameObject FindClosestResource(Dictionary<GameObject, float> resource_dict)
+  {
+    //var ordered = nubi_dict.OrderBy(x => x.Value);
+    float min_value = resource_dict.Values.Min();
+    var closest_resources = resource_dict.Where(resource => resource.Value.Equals(min_value)).Select(resource => resource.Key);
+    foreach (GameObject closest_resource in closest_resources){
+      return closest_resource;
+    }
+    return null;
+  }
+
+
+
+
 
   //OSC Messages
 

@@ -11,11 +11,11 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
     private OSC myOsc;
     private Image healthslide;
 
-    //[SyncVar]
-    public float health = 100;
-
     [SyncVar]
-    public float juergen = 1f;
+    public float health = 100f;
+
+    //[SyncVar]
+    //public float juergen = 1f;
 
     [Header("Unity")]
     public Image healthBar;
@@ -29,8 +29,8 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
         //healthslide = GameObject.FindGameObjectsWithTag("HealthBar");
 	}
 	
-    //[SyncEvent]
-    public void TakeDamage (float amount)
+    [Command]
+    public void CmdTakeDamage (float amount)
     {
         if (health <= 0)
         {
@@ -39,11 +39,38 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
 
         else {
         health -= amount;
-        juergen = health / 100f;
+        healthBar.fillAmount = health / 100f;
+       // juergen = health / 100f;
         Debug.Log("health: "+health);
         OSCDig();
         }
     }
+
+    //[ClientRPC]
+/*
+[SyncVar] only sync from Server --> Client. They never sync from Client --> Server. However they 
+            *can* be changed locally on the client and no errors will be thrown.
+
+[Command] send information from Client --> Server. It can only be used if the client owns the object 
+        and has authority.
+[ClientRPC] are just like command's but send information from Server --> all Client's
+[TargetRPC] is just like ClientRPC, but only sends to 1 client (not all clients)
+
+Your hook looks correct.
+
+If you want the client to change the value of the SyncVar then send a Command to the server and 
+then on the server change the value. This new updated value will then be trickled back to all clients
+and hooks will be called. 
+*/
+
+/*
+if(isClient){
+
+
+}
+
+*/
+
 
   //OSC Message 
   private void OSCDig(){
@@ -53,6 +80,11 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
   myOsc.Send (msg);
   Debug.Log("Send OSC message /resource_dig");
   }
+
+
+
+
+
 
 
   private void OSCEnd(){
@@ -66,7 +98,7 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
 
     // Update is called once per frame
     void Update () {
-        healthBar.fillAmount = juergen;
+     //   healthBar.fillAmount = juergen;
 	}
 
 
