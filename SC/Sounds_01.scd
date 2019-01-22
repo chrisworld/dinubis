@@ -3,9 +3,6 @@
 
 
 (
-~soundSourcesGroup = Group.new;
-
-
 
 //	Buffer-Dictionary
 ~path = PathName.new(thisProcess.nowExecutingPath).parentPath ++ "buffers/";
@@ -30,6 +27,7 @@
 
 // OSC-Messages (Triggering)
 ~osc = { arg msg, time, replyAddr, recvPort;
+	var harmFactor = 30;
 
 	// Number of Resi
 	if(msg[0] == '/num_resi') {
@@ -42,13 +40,12 @@
 	// Spawning Resi
 	if(msg[0] == '/spawn_resi') {
 		"spawn_resi".postln;
-		~resiSynth[msg[1]] = Synth.new(\sineOfResi, [\freq, msg[2], \amp, msg[3] * ~ampScale]);
+		~resiSynth[msg[1]] = Synth.new(\sineOfResi, [\freq, msg[2], \amp, msg[3] * ~ampScale, \numHarm, msg[3] * harmFactor, \height, 0.0]);
 	};
 
 	// Distanz-Update-Resi
 	if(msg[0] == '/update_resi') {
-		"update_resi".postln;
-		~resiSynth[msg[1]].set(\freq, msg[2], \amp, msg[3] * ~ampScale);
+		~resiSynth[msg[1]].set(\freq, msg[2], \amp, msg[3] * ~ampScale, \numHarm, msg[3] * harmFactor, \height, msg[4]);
 	};
 
 	// Collide-Resi
@@ -56,55 +53,56 @@
 		"collide_resi".postln;
 		~resiSynth[msg[1]].set(\freq, msg[2]);
 	};
-/*
+	/*
 	// Contact - Hey
 	if(msg[0] == '/hey') {
-		"contact_hey".postln;
-		Synth.new(\hey, [\buffer, b[\hey][0]]);
+	"contact_hey".postln;
+	Synth.new(\hey, [\buffer, b[\hey][0]]);
 	};
 
 	// Player_move
 	if(msg[0] == '/player_move') {
-		"player_move".postln;
-		Synth.new(\hey, [\buffer, b[\movement][0]]);
+	"player_move".postln;
+	Synth.new(\hey, [\buffer, b[\movement][0]]);
 	};
 
 
 	// Player_run
 	if(msg[0] == '/player_run') {
-		"player_run".postln;
-		Synth.new(\hey, [\buffer, b[\movement][1]]);
+	"player_run".postln;
+	Synth.new(\hey, [\buffer, b[\movement][1]]);
 	};
-*/
+
 	// Resource_dig
 	if(msg[0] == '/resource_dig') {
-		"resource_dig".postln;
-		Synth.new(\dig, [\buffer, b[\hihat][rrand(0,21)], \rate, rrand(0.1, 0.4)]);
+	"resource_dig".postln;
+	Synth.new(\dig, [\buffer, b[\hihat][rrand(0,21)], \rate, rrand(0.1, 0.4)]);
 	};
 
-
+*/
 
 };
 
 
 //	SynthDefs
 SynthDef.new(\sineOfResi, {
-	arg freq, amp, bus, pos = 0;
-	var sig, freqArray, ampArray;
+	arg freq, amp, numHarm, height, bus = 0, pos = 0;
+	var sig;
 
-	freqArray = Array.fill(10, { |i| i=i+1; freq * i });
-	ampArray = Array.fill(10, { |i| i=i+1; (amp * i).reciprocal });
+	height = (height * (12000)) + 25;
+	height.poll;
 
-	sig = Klang.ar(`[freqArray, ampArray, nil]);
+	sig = Blip.ar(freq, numHarm, amp);
+	sig = HPF.ar(sig, height);
 
-	Out.ar(bus, Pan2.ar(sig, pos));
+	Out.ar(bus, Limiter.ar(Pan2.ar(sig, pos)));
 }).add;
 
 
 
 SynthDef.new(\hey, {
-	arg buffer = ~buffer;
-	var in, sig, pos = 0;
+	arg buffer = ~buffer, bus = 0, pos = 0;
+	var in, sig;
 	var freq, hasFreq;
 	var rate = \rate.kr(1);
 	var lag;
@@ -117,16 +115,16 @@ SynthDef.new(\hey, {
 
 	sig = PlayBuf.ar(1, buffer, BufRateScale.kr(buffer) * freq, loop: 0, doneAction: 2);
 
-	Out.ar(0, Pan2.ar(sig, pos));
+	Out.ar(bus, Limiter.ar(Pan2.ar(sig, pos)));
 }).add;
 
 
 
 SynthDef.new(\dig, {| out = 0, buffer = 0, rate |
 
-    Out.ar(out,
-        PlayBuf.ar(2, buffer, rate,1, 0, 0, doneAction: 2) * 0.5
-    )
+	Out.ar(out,
+		PlayBuf.ar(2, buffer, rate,1, 0, 0, doneAction: 2) * 0.5
+	)
 }).add;
 
 

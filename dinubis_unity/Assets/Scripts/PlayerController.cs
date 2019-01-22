@@ -179,7 +179,7 @@ public class PlayerController : NetworkBehaviour
   msg.address = "/player_move";
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
-  Debug.Log("Send OSC message /player_walk");
+  //Debug.Log("Send OSC message /player_walk");
   }
 
   //Player Run
@@ -188,7 +188,7 @@ public class PlayerController : NetworkBehaviour
   msg.address = "/player_run";
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
-  Debug.Log("Send OSC message /player_run");
+  //Debug.Log("Send OSC message /player_run");
   }
 
   //Player Stop
@@ -197,7 +197,7 @@ public class PlayerController : NetworkBehaviour
   msg.address = "/player_stop";
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
-  Debug.Log("Send OSC message /player_stop");
+  //Debug.Log("Send OSC message /player_stop");
   }
 
 

@@ -106,6 +106,10 @@ if(isClient){
     {
         Debug.Log("The End.(Looting completed.)");
         OSCEnd();
-        EditorApplication.isPlaying = false;
+        #if UNITY_EDITOR
+          UnityEditor.EditorApplication.isPlaying = false;
+        #else
+          Application.Quit();
+        #endif
     }
 }
