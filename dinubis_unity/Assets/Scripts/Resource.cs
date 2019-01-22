@@ -29,10 +29,11 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
         //healthslide = GameObject.FindGameObjectsWithTag("HealthBar");
 	}
 	
-    [Command]
-    public void CmdTakeDamage (float amount)
+  
+
+    [Command] public void CmdTakeDamage (float amount)
     {
-        if (health <= 0)
+        if (health == 0)
         {
            End();
         }
@@ -89,27 +90,26 @@ if(isClient){
 
   private void OSCEnd(){
   OscMessage msg = new OscMessage ();
-  msg.address = "/end";
+  msg.address = "/abbau_end";
+  msg.values.Add (10/8);
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
   Debug.Log("Send OSC message /resource_end");
   }
-
 
     // Update is called once per frame
     void Update () {
      //   healthBar.fillAmount = juergen;
 	}
 
-
     void End ()
     {
         Debug.Log("The End.(Looting completed.)");
         OSCEnd();
-        #if UNITY_EDITOR
-          UnityEditor.EditorApplication.isPlaying = false;
-        #else
-          Application.Quit();
-        #endif
+        // #if UNITY_EDITOR
+        //   UnityEditor.EditorApplication.isPlaying = false;
+        // #else
+        //   Application.Quit();
+        // #endif
     }
 }
