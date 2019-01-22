@@ -51,7 +51,7 @@ public class ResiSpawner : NetworkBehaviour {
     }
     if (cur_active_resis != active_resis){
       active_resis = cur_active_resis;
-      OSCSendNumResi(active_resis);
+      //OSCSendNumResi(active_resis);
     }
   }
 

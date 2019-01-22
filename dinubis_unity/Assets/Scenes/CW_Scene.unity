@@ -825,7 +825,7 @@ MonoBehaviour:
   spawn_center: {fileID: 2029415041}
   resi_prefab: {fileID: 1302358272391888, guid: ff2d84604999d6a43b8ecf9a1ea7ad35,
     type: 2}
-  n_resi: 30
+  n_resi: 5
   base_freq: 50
 --- !u!114 &1096161776
 MonoBehaviour:

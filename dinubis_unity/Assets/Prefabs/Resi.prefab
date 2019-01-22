@@ -889,7 +889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21f7aca9c9d4d6469ab38ef71f6db49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  follow_dist: 20
+  follow_dist: 5
   follow_speed: 3.5
   walking_range: 20
   walking_speed: 1
@@ -898,6 +898,7 @@ MonoBehaviour:
   spawner_pos: {x: 0, y: 0, z: 0}
   follow_nubi: 0
   id: 0
+  in_hearing_dist: 0
   freq: 0
 --- !u!114 &114869751032725236
 MonoBehaviour:
@@ -944,7 +945,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 4
+  m_StoppingDistance: 3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
