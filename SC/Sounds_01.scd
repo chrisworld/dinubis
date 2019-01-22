@@ -36,13 +36,18 @@
 		"num_resi".postln;
 		~numOfResi = msg[1];
 		~resiSynth = Array.fill(~numOfResi, {arg i; i});
-		~ampScale = 1 / ~numOfResi;
 	};
 
 	// Spawning Resi
 	if(msg[0] == '/spawn_resi') {
 		"spawn_resi".postln;
 		~resiSynth[msg[1]] = Synth.new(\sineOfResi, [\freq, msg[2], \amp, msg[3] * ~ampScale, \numHarm, msg[3] * harmFactor, \height, 0.0]);
+	};
+
+	// Number of active Resis
+	if(msg[0] == '/num_active') {
+		"num_active".postln;
+		~ampScale = 1 / msg[1];
 	};
 
 	// Distanz-Update-Resi
@@ -68,21 +73,22 @@
 		~transpose = msg[1];
 	};
 
-/*
+
+	/*
 	// Player_move
 	if(msg[0] == '/player_move') {
-		"player_move".postln;
-		Synth.new(\hey, [\buffer, b[\movement][0]]);
+	"player_move".postln;
+	Synth.new(\hey, [\buffer, b[\movement][0]]);
 	};
 
 
 	// Player_run
 	if(msg[0] == '/player_run') {
-		"player_run".postln;
-		Synth.new(\hey, [\buffer, b[\movement][1]]);
+	"player_run".postln;
+	Synth.new(\hey, [\buffer, b[\movement][1]]);
 	};
 
-*/
+	*/
 	// Resource_dig
 	if(msg[0] == '/resource_dig') {
 		"resource_dig".postln;
