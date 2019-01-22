@@ -109,8 +109,7 @@ public class PlayerController : NetworkBehaviour
   }
 
 
-  [Client]
-  public void Dig()  //in InputHandler
+  [Client] public void Dig()  //in InputHandler
   {
     if (!isLocalPlayer) {
       return;
