@@ -350,6 +350,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &460391557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 460391558}
+  m_Layer: 0
+  m_Name: ResiSpawnPos (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &460391558
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 460391557}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -34.518, y: 0, z: 1.84}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1096161774}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &474331020
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,10 +832,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1096161773}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.27, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2029415041}
+  - {fileID: 460391558}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -822,9 +851,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52649ad0e8505a5459f4a0891a8aa2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawn_center: {fileID: 2029415041}
+  spawn_positions:
+  - {fileID: 2029415041}
+  - {fileID: 460391558}
   resi_prefab: {fileID: 1302358272391888, guid: ff2d84604999d6a43b8ecf9a1ea7ad35,
     type: 2}
+  spawn_range: 20
   n_resi: 5
   base_freq: 50
 --- !u!114 &1096161776
@@ -937,7 +969,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4813511641090014, guid: f9c3729ff3238774bb1a960d90ae8450, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 4.6
+      value: -37.7
       objectReference: {fileID: 0}
     - target: {fileID: 4813511641090014, guid: f9c3729ff3238774bb1a960d90ae8450, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1086,7 +1118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2029415041}
   m_Layer: 0
-  m_Name: ResiSpawnPos1
+  m_Name: ResiSpawnPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1099,7 +1131,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2029415040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.04, y: 0, z: 0}
+  m_LocalPosition: {x: 28.2, y: 0, z: 9.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1096161774}

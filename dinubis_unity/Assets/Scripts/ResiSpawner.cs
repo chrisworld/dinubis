@@ -5,8 +5,9 @@ using UnityEngine.Networking;
 
 public class ResiSpawner : NetworkBehaviour {
 
-  public Transform spawn_center;
+  public Transform[] spawn_positions;
   public GameObject resi_prefab;
+  public float spawn_range = 20f; 
   public int n_resi = 1;
   public int base_freq = 60;
 
@@ -14,22 +15,28 @@ public class ResiSpawner : NetworkBehaviour {
 
   private GameObject[] resis;
 
+  private int resi_index;
+
   // Use this for initialization
   public override void OnStartServer () // This is invoked for NetworkBehaviour objects when they become active on the server.
   {
-    OSCSendNumResi(n_resi);
-    for (int index = 0; index < n_resi; index = index + 1) 
-    {
-      Vector3 spawnPosition = new Vector3 (spawn_center.position.x + Random.Range(-20f, 20f), 0.5f, spawn_center.position.z + Random.Range(-20f, 20f));
-      //Vector3 spawnPosition = new Vector3 (104f, 0.5f, 43f);
-      Quaternion spawnRotation = Quaternion.Euler (0f, 0f, 0f);
+    OSCSendNumResi(n_resi * spawn_positions.Length);
+    resi_index = 0;
+    foreach (Transform spawn_pos in spawn_positions){
+      for (int index = 0; index < n_resi; index = index + 1) 
+      {
+        Vector3 spawnPosition = new Vector3 (spawn_pos.position.x + Random.Range(-spawn_range, spawn_range), 0.5f, spawn_pos.position.z + Random.Range(-spawn_range, spawn_range));
+        //Vector3 spawnPosition = new Vector3 (104f, 0.5f, 43f);
+        Quaternion spawnRotation = Quaternion.Euler (0f, 0f, 0f);
+        resi_index += 1;
 
-      GameObject resi = (GameObject)Instantiate (resi_prefab, spawnPosition, spawnRotation);
-      resi.GetComponent<Resident>().id = index;
-      resi.GetComponent<Resident>().freq = index * base_freq + base_freq;
-      resi.GetComponent<Resident>().spawner_pos = gameObject.transform.position;
+        GameObject resi = (GameObject)Instantiate (resi_prefab, spawnPosition, spawnRotation);
+        resi.GetComponent<Resident>().id = resi_index;
+        resi.GetComponent<Resident>().freq = index * base_freq + base_freq;
+        resi.GetComponent<Resident>().spawner_pos = spawn_pos.position;
 
-      NetworkServer.Spawn (resi);
+        NetworkServer.Spawn (resi);
+      }
     }
   }
 

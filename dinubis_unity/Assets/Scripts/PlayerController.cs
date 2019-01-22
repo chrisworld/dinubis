@@ -8,6 +8,7 @@ using System.Linq;
 public class PlayerController : NetworkBehaviour
 {
   // public
+  public int jump_limit = 4;
   public float walkSpeed = 1;
   public float runSpeed = 3;
   public float turnSmoothTime = 0.2f;
@@ -37,6 +38,7 @@ public class PlayerController : NetworkBehaviour
   // private
   private bool walk = false;
   private bool run = false;
+  private int jump_counter;
 
   private float turnSmoothVelocity;
   private float speedSmoothVelocity;
@@ -55,7 +57,7 @@ public class PlayerController : NetworkBehaviour
     cameraT = Camera.main.transform;
     controller = GetComponent<CharacterController>();
     myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();
-
+    jump_counter = 0;
 
   }
 
@@ -217,12 +219,16 @@ public class PlayerController : NetworkBehaviour
     if (!isLocalPlayer) {
       return;
     };
-    //if (controller.isGrounded)
-    //{
+    if (controller.isGrounded)
+    {
+      jump_counter = 0;
+    }
+    if (jump_counter < jump_limit)
+    {
       float jumpVelocity = Mathf.Sqrt(-2 * gravity * jumpHeight);
       velocityY = jumpVelocity;
-      //anim.SetTrigger("jump");
-    //}
+      jump_counter += 1;
+    }
   }
 
   //not convinced this is really that useful - may delete later

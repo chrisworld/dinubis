@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 4162020896402750}
   - component: {fileID: 33419704899025306}
   - component: {fileID: 23073104371761958}
+  - component: {fileID: 64164132301255180}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -107,6 +108,7 @@ GameObject:
   - component: {fileID: 4738704688940602}
   - component: {fileID: 33306711275411270}
   - component: {fileID: 23027750849243398}
+  - component: {fileID: 64604682024404910}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -240,6 +242,34 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1621456972304494}
   m_Mesh: {fileID: 4300002, guid: 186a5bfe1fbd7844f87369ab44cd3f57, type: 3}
+--- !u!64 &64164132301255180
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1621456972304494}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300002, guid: 186a5bfe1fbd7844f87369ab44cd3f57, type: 3}
+--- !u!64 &64604682024404910
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1983630590781712}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 186a5bfe1fbd7844f87369ab44cd3f57, type: 3}
 --- !u!114 &114192452447671800
 MonoBehaviour:
   m_ObjectHideFlags: 1
