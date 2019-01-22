@@ -51,15 +51,25 @@ public class ResiSpawner : NetworkBehaviour {
     }
     if (cur_active_resis != active_resis){
       active_resis = cur_active_resis;
-      OSCSendNumResi(active_resis);
+      OSCSendNumActiveResi(active_resis);
     }
   }
 
-  private void OSCSendNumResi(int num_act_resis)
+  private void OSCSendNumResi(int num_resis)
   {
     OSC myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();;
     OscMessage msg = new OscMessage ();
     msg.address = "/num_resi";
+    msg.values.Add (num_resis);
+    myOsc.Send (msg);
+    Debug.Log("Send resi num: " + num_resis);
+  }
+
+  private void OSCSendNumActiveResi(int num_act_resis)
+  {
+    OSC myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();;
+    OscMessage msg = new OscMessage ();
+    msg.address = "/num_active";
     msg.values.Add (num_act_resis);
     myOsc.Send (msg);
     Debug.Log("Send active resi num: " + num_act_resis);
