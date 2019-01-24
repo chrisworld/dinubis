@@ -29,8 +29,8 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
         //healthslide = GameObject.FindGameObjectsWithTag("HealthBar");
 	}
 	
-  [Server]
-  void CmdSetHealth(float newHealth)
+  [ClientRpc]
+  void RpcSetHealth(float newHealth)
   {
     health = newHealth;
     healthBar.fillAmount = health / 100f;
@@ -57,6 +57,7 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
         health -= amount*5;
         //healthBar.fillAmount = health / 100f;
        // juergen = health / 100f;
+        RpcSetHealth(health);
         Debug.Log("health: "+health);
         Debug.Log("amount: "+amount);
         OSCDig();
