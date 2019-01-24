@@ -110,8 +110,8 @@ public class PlayerController : NetworkBehaviour
     }
   }
 
- [Server]
-  public void Dig()  //in InputHandler
+ [Command]
+  public void CmdDig()  //in InputHandler
   {
     if (!isLocalPlayer) {
       return;

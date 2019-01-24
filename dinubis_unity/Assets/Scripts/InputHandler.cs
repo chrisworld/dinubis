@@ -36,7 +36,7 @@ public class InputHandler : MonoBehaviour
     // Dig
     if (checkValidDigKey())
     {
-      player.Dig();
+      player.CmdDig();
     }
   }
 
