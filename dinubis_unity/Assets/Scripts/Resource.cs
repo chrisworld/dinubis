@@ -29,11 +29,10 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
         //healthslide = GameObject.FindGameObjectsWithTag("HealthBar");
 	}
 	
-  [Server]
-  void SetHealth(float newHealth)
+  [Command]
+  void CmdSetHealth(float newHealth)
   {
     health = newHealth;
-    healthBar.fillAmount = health / 100f;
   }
 
 
@@ -55,9 +54,8 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
 
         else {
         health -= amount*5;
-        //healthBar.fillAmount = health / 100f;
+        healthBar.fillAmount = health / 100f;
        // juergen = health / 100f;
-        SetHealth(health);
         Debug.Log("health: "+health);
         Debug.Log("amount: "+amount);
         OSCDig();
@@ -108,6 +106,10 @@ if(isClient){
   myOsc.Send (msg);
   Debug.Log("Send OSC message /resource_dig");
   }
+
+
+
+
 
 
 
