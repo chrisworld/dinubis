@@ -11,7 +11,7 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
     private OSC myOsc;
     private Image healthslide;
 
-    [SyncVar(hook = "CmdTakeDamage")]
+    [SyncVar(hook = "OnHealthChanged")]
     public float health = 100f;
 
     //[SyncVar]
@@ -29,14 +29,20 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
         //healthslide = GameObject.FindGameObjectsWithTag("HealthBar");
 	}
 	
-  
+  [Command]
+  void CmdSetHealth(float newHealth)
+  {
+    health = newHealth;
+  }
 
-    [Command] 
-    public void CmdTakeDamage (float amount)
+
+  [Server] 
+    public void TakeDamage (float amount)
     {
-        if (health == 1)
+        if (health == 0)
         {
            End();
+
 
         }
 
@@ -47,12 +53,19 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
         // }
 
         else {
-        health -= amount;
+        health -= amount*5;
         healthBar.fillAmount = health / 100f;
        // juergen = health / 100f;
         Debug.Log("health: "+health);
+        Debug.Log("amount: "+amount);
         OSCDig();
         }
+    }
+
+
+    void OnHealthChanged(float newHealth)
+    {
+      health = newHealth;
     }
 
 
