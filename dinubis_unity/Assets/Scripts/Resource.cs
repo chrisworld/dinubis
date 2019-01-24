@@ -40,11 +40,11 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
 
         }
 
-        if (health == 0)
-        {
-           End_Kill();
+        // if (health == 0)
+        // {
+        //    End_Kill();
 
-        }
+        // }
 
         else {
         health -= amount;
