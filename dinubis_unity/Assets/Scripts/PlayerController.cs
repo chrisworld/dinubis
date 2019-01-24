@@ -18,7 +18,7 @@ public class PlayerController : NetworkBehaviour
 
 
 
-  public float attackDamage = 1f;
+  public float attackDamage = 5f;
   private float maxDistance = 10f;
   private float maxDistanceResi = 75f;
   private Resource resource;
@@ -150,6 +150,19 @@ public class PlayerController : NetworkBehaviour
     if (min_resource_dist < maxDistance) {  //distance_resource
       if (min_resi_dist > maxDistanceResi) {   //distance_resi
         GameObject closestResource = FindClosestResource(resource_dict);
+        
+
+      //   Debug.Log("Damaged");
+      //           if (isServer)
+      //           {
+      //               RpcDamage(attackDamage);
+      //           }
+      //           else
+      //           {
+      //               CmdDamage(attackDamage);
+      //           }
+      // }
+
         closestResource.GetComponent<Resource>().CmdTakeDamage(attackDamage);
       }
     }

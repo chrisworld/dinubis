@@ -11,7 +11,7 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
     private OSC myOsc;
     private Image healthslide;
 
-    [SyncVar]
+    [SyncVar(hook = "CmdTakeDamage")]
     public float health = 100f;
 
     //[SyncVar]
@@ -31,11 +31,19 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
 	
   
 
-    [Command] public void CmdTakeDamage (float amount)
+    [Command] 
+    public void CmdTakeDamage (float amount)
     {
-        if (health == 0)
+        if (health == 1)
         {
            End();
+
+        }
+
+        if (health == 0)
+        {
+           End_Kill();
+
         }
 
         else {
@@ -46,6 +54,10 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
         OSCDig();
         }
     }
+
+
+
+
 
     //[ClientRPC]
 /*
