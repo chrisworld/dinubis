@@ -36,7 +36,7 @@ public class Resource : NetworkBehaviour { //MonoBehaviour
   }
 
 
-  [Server] 
+  //[Server] 
     public void TakeDamage (float amount)
     {
         if (health == 0)
