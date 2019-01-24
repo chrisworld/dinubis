@@ -34,11 +34,14 @@ public class Resident : NetworkBehaviour {
   private float hearing_dist_sqr;
 
   // Use this for initialization
-  void Start () {
+  void Awake () {
     // NavMesh Agent setup
     agent = gameObject.GetComponent<NavMeshAgent>();
     // OSC init
     myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();
+  }
+
+  void Start () {
     OSCSendSpawnResi();
     follow_dist_sqr = follow_dist * follow_dist;
     hearing_dist_sqr = hearing_dist * hearing_dist;
@@ -80,34 +83,24 @@ public class Resident : NetworkBehaviour {
       }
     }
 
+    // Server has to set follow to closest nubi
+    if (isServer){
+      if (nubi_dict.Count != 0){
+        float min_dist = nubi_dict.Values.Min();
 
-
-    // follow closest nubi via nav agent
-    if (nubi_dict.Count != 0){
-      float min_dist = nubi_dict.Values.Min();
-
-      // track the nubi down
-      if (min_dist < follow_dist_sqr)
-      {
-        GameObject closest_nubi = FindClosestNubi(nubi_dict);
-        agent.speed = follow_speed;
-        if(isServer){
-          RpcAgentSetDestination(closest_nubi.transform.position);
+        // track the nubi down
+        if (min_dist < follow_dist_sqr)
+        {
+          GameObject closest_nubi = FindClosestNubi(nubi_dict);
+          RpcAgentSet(closest_nubi.transform.position, follow_speed);
         }
-        //CmdAgentSetDestination(closest_nubi.transform.position);
-        //agent.SetDestination(closest_nubi.transform.position);
-      }
-      else
-      {
-        if (!agent.pathPending){
-          if (agent.remainingDistance <= agent.stoppingDistance){
-            if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f){
-              agent.speed = walking_speed;
-              if(isServer){
-                RpcAgentSetDestination(RandomNavmeshLocation(walking_range));
+        else
+        {
+          if (!agent.pathPending){
+            if (agent.remainingDistance <= agent.stoppingDistance){
+              if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f){
+                RpcAgentSet(RandomNavmeshLocation(walking_range), walking_speed);
               }
-              //CmdAgentSetDestination(RandomNavmeshLocation(walking_range));
-              //agent.SetDestination(RandomNavmeshLocation(walking_range));
             }
           }
         }
@@ -116,15 +109,16 @@ public class Resident : NetworkBehaviour {
   }
 
   [Command]
-  public void CmdAgentSetDestination(Vector3 argPosition)
+  public void CmdAgentSet(Vector3 argPosition, float speed)
   {
-    RpcAgentSetDestination(argPosition);    
+    RpcAgentSet(argPosition, speed);    
   }
  
   [ClientRpc]
-  public void RpcAgentSetDestination(Vector3 argPosition)
+  public void RpcAgentSet(Vector3 argPosition, float speed)
   {
     agent.SetDestination(argPosition);
+    agent.speed = speed;
   }
 
   // Find the closest nubi and returns him
