@@ -66,14 +66,24 @@
 	// Player_move
 	if(msg[0] == '/player_move') {
 		"player_move".postln;
-		Synth.new(\hey, [\buffer, b[\movement][0]]);
+		//Synth.new(\hey, [\buffer, b[\movement][0]]);
+		Pbind(
+	\instrument, \player_move,
+	\fc, rrand(4000, 12000),
+	\fm, rrand(100, 200),
+	\idx, 10,
+	\amp, 0.2,
+	\atk, 0.01,
+	\rls, 0.001,
+	\dur, Pwhite(0.1, 0.05, 10)
+).play;
 	};
 
 
-	// Pllayer_run
+	// Player_run
 	if(msg[0] == '/player_run') {
 		"player_run".postln;
-		Synth.new(\hey, [\buffer, b[\movement][1]]);
+		Synth.new(\run, [\freq, ((rrand(10, 40))-12).midicps, \mod, rrand(2, 6), \time, rrand(1.5, 2)]);
 	};
 
 	// Resource_dig
@@ -125,6 +135,38 @@ SynthDef.new(\dig, {| out = 0, buffer = 0, rate |
     Out.ar(out,
         PlayBuf.ar(2, buffer, rate,1, 0, 0, doneAction: 2) * 0.5
     )
+}).add;
+
+
+
+SynthDef(\player_move, {
+	|
+	amp=0.2,
+	fc=1000,
+	fm = 100,
+	idx = 100,
+	atk=0.01,
+	rls=0.1
+	|
+	var env = EnvGen.ar(Env.perc(atk, rls), doneAction:2);
+	var modulator = SinOsc.ar(fm);
+	var carrier = SinOsc.ar(fc + (idx*modulator) );
+	var sig = carrier *  env * amp;
+	sig = HPF.ar(sig, 1000);
+	Out.ar(0, sig!2);
+}).add;
+
+
+SynthDef(\run, {
+	|
+	time=2,
+	freq=100,
+	mod =2
+	|
+var saw, tone;
+	saw = VarSaw.ar(freq/2 * mod, width: XLine.ar(0.5,2,time, doneAction: 2)).range(0,XLine.ar(1,1/1000,time, doneAction: 2));
+	tone =  SinOsc.ar(freq).fold(-1*saw,saw);
+	Out.ar(0, tone.dup);
 }).add;
 
 
