@@ -5,6 +5,7 @@
 (
 
 ~transpose = 1;
+~ampScale = 1;
 
 //	Buffer-Dictionary
 ~path = PathName.new(thisProcess.nowExecutingPath).parentPath ++ "buffers/";
