@@ -18,7 +18,7 @@ public class PlayerController : NetworkBehaviour
 
 
 
-  public float attackDamage = 5f;
+  public float attackDamage = 1f;
   private float maxDistance = 10f;
   private float maxDistanceResi = 75f;
   private Resource resource;
@@ -110,8 +110,8 @@ public class PlayerController : NetworkBehaviour
     }
   }
 
-
-  [Client] public void Dig()  //in InputHandler
+ [Server]
+  public void Dig()  //in InputHandler
   {
     if (!isLocalPlayer) {
       return;
@@ -163,7 +163,7 @@ public class PlayerController : NetworkBehaviour
       //           }
       // }
 
-        closestResource.GetComponent<Resource>().CmdTakeDamage(attackDamage);
+        closestResource.GetComponent<Resource>().TakeDamage(attackDamage);
       }
     }
   }
