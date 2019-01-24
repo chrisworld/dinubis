@@ -1,0 +1,13 @@
+# Blender MTL File: 'uhrturm.blend'
+# Material Count: 1
+
+newmtl uhrturm_texture
+Ns 0.000000
+Ka 0.313475 0.313475 0.313475
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 1.340000 1.340000 1.340000
+Ni 1.000000
+d 1.000000
+illum 0
+map_Kd uhrturm_tex_rework.png

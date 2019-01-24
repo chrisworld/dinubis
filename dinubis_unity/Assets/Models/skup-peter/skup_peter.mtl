@@ -1,0 +1,46 @@
+# Blender MTL File: 'skup_peter.blend'
+# Material Count: 4
+
+newmtl scup_peter01
+Ns 0.000000
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 1.000000 1.000000 1.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd peter_texture03.png
+
+newmtl shoulder
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 1.224000 1.224000 1.224000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd D:\Photogrammetrie\_export\Skup_Peter\model\peter_skin_dark.png
+
+newmtl top_hair
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.879679 0.879679 0.879679
+Ke 1.032000 1.032000 1.032000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd peter_hair_texture01.png
+
+newmtl top_hair_peter_texture03.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.879679 0.879679 0.879679
+Ke 1.032000 1.032000 1.032000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd peter_texture03.png
