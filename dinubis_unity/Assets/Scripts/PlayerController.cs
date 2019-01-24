@@ -111,7 +111,7 @@ public class PlayerController : NetworkBehaviour
   }
 
  [Command]
-  public void Dig()  //in InputHandler
+  public void CmdDig()  //in InputHandler
   {
     if (!isLocalPlayer) {
       return;

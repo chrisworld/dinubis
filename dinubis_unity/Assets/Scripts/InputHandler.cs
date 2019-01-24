@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 // handle inputs
-public class InputHandler : MonoBehaviour
+public class InputHandler : NetworkBehaviour
 {
   private PlayerController player;
 
@@ -36,7 +37,7 @@ public class InputHandler : MonoBehaviour
     // Dig
     if (checkValidDigKey())
     {
-      player.Dig();
+      player.CmdDig();
     }
   }
 
