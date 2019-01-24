@@ -91,7 +91,10 @@ public class Resident : NetworkBehaviour {
       {
         GameObject closest_nubi = FindClosestNubi(nubi_dict);
         agent.speed = follow_speed;
-        CmdAgentSetDestination(closest_nubi.transform.position);
+        if(isServer){
+          RpcAgentSetDestination(closest_nubi.transform.position);
+        }
+        //CmdAgentSetDestination(closest_nubi.transform.position);
         //agent.SetDestination(closest_nubi.transform.position);
       }
       else
@@ -100,7 +103,10 @@ public class Resident : NetworkBehaviour {
           if (agent.remainingDistance <= agent.stoppingDistance){
             if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f){
               agent.speed = walking_speed;
-              CmdAgentSetDestination(RandomNavmeshLocation(walking_range));
+              if(isServer){
+                RpcAgentSetDestination(RandomNavmeshLocation(walking_range));
+              }
+              //CmdAgentSetDestination(RandomNavmeshLocation(walking_range));
               //agent.SetDestination(RandomNavmeshLocation(walking_range));
             }
           }
