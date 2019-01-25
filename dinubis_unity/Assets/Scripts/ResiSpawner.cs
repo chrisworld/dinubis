@@ -20,7 +20,7 @@ public class ResiSpawner : NetworkBehaviour {
   // Use this for initialization
   public override void OnStartServer () // This is invoked for NetworkBehaviour objects when they become active on the server.
   {
-    OSCSendNumResi(n_resi * spawn_positions.Length);
+    //OSCSendNumResi(n_resi * spawn_positions.Length);
     resi_index = 0;
     foreach (Transform spawn_pos in spawn_positions){
       int resi_base_freq = base_freqs[Random.Range(0, base_freqs.Length)];
@@ -38,6 +38,11 @@ public class ResiSpawner : NetworkBehaviour {
         NetworkServer.Spawn (resi);
       }
     }
+  }
+
+  void Start()
+  {
+    OSCSendNumResi(n_resi * spawn_positions.Length);
   }
 
   void Update()

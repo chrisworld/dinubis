@@ -20,10 +20,11 @@ public class Resident : NetworkBehaviour {
   [HideInInspector]
   public bool follow_nubi;
   [HideInInspector]
-  public int id;
-  [HideInInspector]
   public bool in_hearing_dist;
 
+  [SyncVar]
+  public int id;
+  [SyncVar]
   public float freq;
 
   NavMeshAgent agent;
@@ -108,6 +109,7 @@ public class Resident : NetworkBehaviour {
     }
   }
 
+  
   [Command]
   public void CmdAgentSet(Vector3 argPosition, float speed)
   {
@@ -120,6 +122,7 @@ public class Resident : NetworkBehaviour {
     agent.SetDestination(argPosition);
     agent.speed = speed;
   }
+
 
   // Find the closest nubi and returns him
   private GameObject FindClosestNubi(Dictionary<GameObject, float> nubi_dict)
