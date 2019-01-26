@@ -29,12 +29,11 @@ public class ResiSpawner : NetworkBehaviour {
         Vector3 spawnPosition = new Vector3 (spawn_pos.position.x + Random.Range(-spawn_range, spawn_range), 0.5f, spawn_pos.position.z + Random.Range(-spawn_range, spawn_range));
         //Vector3 spawnPosition = new Vector3 (104f, 0.5f, 43f);
         Quaternion spawnRotation = Quaternion.Euler (0f, 0f, 0f);
-        resi_index += 1;
         GameObject resi = (GameObject)Instantiate (resi_prefab, spawnPosition, spawnRotation);
         resi.GetComponent<Resident>().id = resi_index;
         resi.GetComponent<Resident>().freq = index * resi_base_freq + resi_base_freq;
         resi.GetComponent<Resident>().spawner_pos = spawn_pos.position;
-
+        resi_index += 1;
         NetworkServer.Spawn (resi);
       }
     }
