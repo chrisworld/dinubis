@@ -118,7 +118,7 @@ if(isClient){
   private void OSCEnd(){
   OscMessage msg = new OscMessage ();
   msg.address = "/abbau_end";
-  msg.values.Add (2);
+  msg.values.Add (1.5);
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
   Debug.Log("Send OSC message /resource_end");
