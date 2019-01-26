@@ -44,9 +44,11 @@
 	};
 
 	// Number of active Resis
-	if((msg[0] == '/num_active') && (msg[0] > 0)) {	/////////////////// && !!!!!!!!!!!!!
+	if(msg[0] == '/num_active') {
+		if(msg[1] != 0) {
 		~ampScale = 1 / msg[1] } {
-		~ampScale = 0
+		~ampScale = 1
+		}
 	};
 
 	// Distanz-Update-Resi
