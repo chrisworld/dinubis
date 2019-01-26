@@ -1,11 +1,11 @@
-
+(
 //	DINUBIS
 
 
-(
 
 ~transpose = 1;
 ~ampScale = 1;
+
 
 //	Buffer-Dictionary
 ~path = PathName.new(thisProcess.nowExecutingPath).parentPath ++ "buffers/";
@@ -68,22 +68,14 @@
 
 	// Abbau fertig - Transpose
 	if(msg[0] == '/abbau_end') {
-		~transpose = msg[1];
+		~transpose = ~transpose * msg[1];
 	};
-
-
 
 	// Player_move
 	if(msg[0] == '/player_move') {
-	Synth.new(\hey, [\buffer, b[\movement][0]]);
+		if (msg[1] != 0) { ~move = Synth.new(\move, [\buffer, b[\uuu][0], \rate, 2]) }
+		{ ~move.set(\gate, 0) }
 	};
-
-
-	// Player_run
-	if(msg[0] == '/player_run') {
-	Synth.new(\hey, [\buffer, b[\movement][1]]);
-	};
-
 
 	// Resource_dig
 	if(msg[0] == '/resource_dig') {
@@ -92,7 +84,7 @@
 
 };
 
-
+/////////////////////////////////////////////////////////////////////////////////////
 //	SynthDefs
 SynthDef.new(\sineOfResi, {
 	arg freq, amp, numHarm, height, bus = 0, pos = 0;
@@ -127,6 +119,18 @@ SynthDef.new(\hey, {
 
 
 
+SynthDef.new(\move, {
+	arg buffer = ~buffer, bus = 0, pos = 0, rate = 0.5, gate = 1;
+	var sig, env;
+
+	env = EnvGen.kr(Env.asr(releaseTime: 0.01), gate, doneAction: 2);
+
+	sig = PlayBuf.ar(1, buffer, BufRateScale.kr(buffer) * rate, loop: 1);
+
+	Out.ar(bus, Limiter.ar(Pan2.ar(sig, pos, env)));
+}).add;
+
+
 
 SynthDef.new(\dig, {| out = 0, buffer = 0, rate |
 
@@ -136,7 +140,8 @@ SynthDef.new(\dig, {| out = 0, buffer = 0, rate |
 }).add;
 
 
-/////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////
 //	OSC Start
 if(~oscReceiverActive.isNil == true){
 	thisProcess.addOSCRecvFunc(~osc);
