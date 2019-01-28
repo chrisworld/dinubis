@@ -105,7 +105,8 @@ public class PlayerController : NetworkBehaviour
       else if (animationSpeedPercent < 0.1 && (walk || run)){
         walk = false;
         run = false;
-        OSCPlayerStop();
+        OSCPlayerWalkStop();
+        OSCPlayerRunStop();
       }
     }
   }
@@ -190,7 +191,7 @@ public class PlayerController : NetworkBehaviour
   //Player Walk
   private void OSCPlayerWalk(){
   OscMessage msg = new OscMessage ();
-  msg.address = "/player_move";
+  msg.address = "/player_walk";
   msg.values.Add (1);
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
@@ -200,23 +201,32 @@ public class PlayerController : NetworkBehaviour
   //Player Run
   private void OSCPlayerRun(){
   OscMessage msg = new OscMessage ();
-  msg.address = "/player_move";
-  msg.values.Add (2);
+  msg.address = "/player_run";
+  msg.values.Add (1);
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
   //Debug.Log("Send OSC message /player_run");
   }
 
   //Player Stop
-  private void OSCPlayerStop(){
+  private void OSCPlayerWalkStop(){
   OscMessage msg = new OscMessage ();
-  msg.address = "/player_move";
+  msg.address = "/player_walk";
   msg.values.Add (0);
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
   //Debug.Log("Send OSC message /player_stop");
   }
 
+
+  private void OSCPlayerRunStop(){
+  OscMessage msg = new OscMessage ();
+  msg.address = "/player_run";
+  msg.values.Add (0);
+  //msg.values.Add (transform.position.x);
+  myOsc.Send (msg);
+  //Debug.Log("Send OSC message /player_stop");
+  }
 
 
   //--
