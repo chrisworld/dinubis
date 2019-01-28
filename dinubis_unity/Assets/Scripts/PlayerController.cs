@@ -58,7 +58,8 @@ public class PlayerController : NetworkBehaviour
     controller = GetComponent<CharacterController>();
     myOsc = GameObject.Find ("OSCManager").GetComponent<OSC> ();
     jump_counter = 0;
-
+    run = false;
+    walk = false;
   }
 
   // Move Character
@@ -103,6 +104,7 @@ public class PlayerController : NetworkBehaviour
         walk = true;
         run = false;
 
+//Debug.Log("walk");
       }
       else if (animationSpeedPercent > 0.6 && !run){
 
@@ -115,16 +117,21 @@ public class PlayerController : NetworkBehaviour
         run = true;
         walk = false;
 
+
+    //Debug.Log("run");
+
       }
       else if (animationSpeedPercent < 0.1 && (walk || run)){
         if (run)
-            OSCPlayerWalkStop();
+            OSCPlayerRunStop();
 
         if (walk)
-            OSCPlayerRunStop();
+            OSCPlayerWalkStop();
 
         walk = false;
         run = false;
+
+    //Debug.Log("stop");
         
       
       }
@@ -216,6 +223,7 @@ public class PlayerController : NetworkBehaviour
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
   //Debug.Log("Send OSC message /player_walk");
+  Debug.Log("OSCwalk");
   }
 
   //Player Run
@@ -226,6 +234,7 @@ public class PlayerController : NetworkBehaviour
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
   //Debug.Log("Send OSC message /player_run");
+  Debug.Log("OSCrun");
   }
 
   //Player Stop
@@ -236,6 +245,7 @@ public class PlayerController : NetworkBehaviour
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
   //Debug.Log("Send OSC message /player_stop");
+  Debug.Log("OScwalkstop");
   }
 
 
@@ -246,6 +256,7 @@ public class PlayerController : NetworkBehaviour
   //msg.values.Add (transform.position.x);
   myOsc.Send (msg);
   //Debug.Log("Send OSC message /player_stop");
+  Debug.Log("OSCrunstop");
   }
 
 
