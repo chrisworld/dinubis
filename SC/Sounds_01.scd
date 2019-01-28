@@ -135,7 +135,7 @@ SynthDef.new(\move, {
 	env = EnvGen.kr(Env.asr(releaseTime: 0.01), gate, doneAction: 2);
 
 	sig = PlayBuf.ar(1, buffer, BufRateScale.kr(buffer) * rate, loop: 1);
-	sig = sig * env * 0.1;
+	sig = sig * env * 0.075;
 
 	Out.ar(bus, Limiter.ar(Pan2.ar(sig, pos)));
 }).add;
@@ -145,7 +145,7 @@ SynthDef.new(\move, {
 SynthDef.new(\dig, {| out = 0, buffer = 0, rate |
 
 	Out.ar(out,
-		PlayBuf.ar(2, buffer, rate,1, 0, 0, doneAction: 2) * 0.5
+		PlayBuf.ar(2, buffer, rate,1, 0, 0, doneAction: 2)
 	)
 }).add;
 
