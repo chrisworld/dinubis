@@ -143,9 +143,8 @@ SynthDef.new(\move, {
 
 
 SynthDef.new(\dig, {| out = 0, buffer = 0, rate |
-
 	Out.ar(out,
-		PlayBuf.ar(2, buffer, rate,1, 0, 0, doneAction: 2)
+		PlayBuf.ar(2, buffer, rate,1, 0, 0, doneAction: 2) * 2;
 	)
 }).add;
 
