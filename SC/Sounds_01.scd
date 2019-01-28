@@ -30,7 +30,7 @@
 
 // OSC-Messages (Triggering)
 ~osc = { arg msg, time, replyAddr, recvPort;
-	var harmFactor = 30;
+	var harmFactor = 10;
 
 	// Number of Resi
 	if(msg[0] == '/num_resi') {
@@ -71,10 +71,16 @@
 		~transpose = ~transpose * msg[1];
 	};
 
-	// Player_move
-	if(msg[0] == '/player_move') {
-		if (msg[1] != 0) { ~move = Synth.new(\move, [\buffer, b[\uuu][0], \rate, 2]) }
-		{ ~move.set(\gate, 0) }
+	// Player_walk
+	if(msg[0] == '/player_walk') {
+		if (msg[1] == 1) { ~walk = Synth.new(\move, [\buffer, b[\uuu][0], \rate, 2]) }
+		{ ~walk.set(\gate, 0) }
+	};
+
+	// Player_run
+	if(msg[0] == '/player_run') {
+		if (msg[1] == 1) { ~run = Synth.new(\move, [\buffer, b[\uuu][0], \rate, 3]) }
+		{ ~run.set(\gate, 0) }
 	};
 
 	// Resource_dig
@@ -127,7 +133,7 @@ SynthDef.new(\move, {
 
 	sig = PlayBuf.ar(1, buffer, BufRateScale.kr(buffer) * rate, loop: 1);
 
-	Out.ar(bus, Limiter.ar(Pan2.ar(sig, pos, env)));
+	Out.ar(bus, Limiter.ar(Pan2.ar(sig, pos, env * 0.1)));
 }).add;
 
 
@@ -167,6 +173,7 @@ CmdPeriod.doOnce{
 
 
 
-
+v = Synth.new(\move, [\buffer, b[\uuu][0], \rate, 2]);
+v.set(\gate, 0)
 
 
