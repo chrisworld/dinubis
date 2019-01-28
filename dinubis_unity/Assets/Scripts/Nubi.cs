@@ -5,15 +5,17 @@ using UnityEngine.Networking;
 
 public class Nubi : NetworkBehaviour {
 
-  private AudioListener al;
+  //private AudioListener al;
 
   void Start()
   {
+    /*
     al = gameObject.GetComponentInChildren<AudioListener>();
     if (isLocalPlayer) {
       al.enabled = true;
       FindObjectOfType<SoundManager>().ActivateSounds();
     }
+    */
   }
 
   void OnControllerColliderHit(ControllerColliderHit hit)

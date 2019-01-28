@@ -34,9 +34,6 @@ public class ThirdPersonCamera : NetworkBehaviour {
 
         if (isLocalPlayer) {
             cam.enabled = true;
-            // get the location rotation of the character and the camera
-            //m_CharacterTargetRot = character.localRotation;
-            //m_CameraTargetRot = cameraTransform.localRotation;
             al.enabled = true;
         }
     }
