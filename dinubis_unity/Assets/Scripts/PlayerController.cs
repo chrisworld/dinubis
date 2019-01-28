@@ -93,22 +93,40 @@ public class PlayerController : NetworkBehaviour
 
       // walk and run sound
       if (animationSpeedPercent > 0.1 && animationSpeedPercent < 0.6 && !walk){
+
+        if (!walk)
+        OSCPlayerWalk();
+
+        if (run)
+        OSCPlayerRunStop();
+
         walk = true;
         run = false;
-        OSCPlayerWalk();
-        OSCPlayerRunStop();
+
       }
       else if (animationSpeedPercent > 0.6 && !run){
+
+        if (walk)
+        OSCPlayerWalkStop();
+
+        if (!run)
+        OSCPlayerRun();
+        
         run = true;
         walk = false;
-        OSCPlayerRun();
-        OSCPlayerWalkStop();
+
       }
       else if (animationSpeedPercent < 0.1 && (walk || run)){
+        if (run)
+            OSCPlayerWalkStop();
+
+        if (walk)
+            OSCPlayerRunStop();
+
         walk = false;
         run = false;
-        //OSCPlayerWalkStop();
-        //OSCPlayerRunStop();
+        
+      
       }
     }
   }
