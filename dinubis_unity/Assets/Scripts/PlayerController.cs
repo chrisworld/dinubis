@@ -96,17 +96,19 @@ public class PlayerController : NetworkBehaviour
         walk = true;
         run = false;
         OSCPlayerWalk();
+        OSCPlayerRunStop();
       }
       else if (animationSpeedPercent > 0.6 && !run){
         run = true;
         walk = false;
         OSCPlayerRun();
+        OSCPlayerWalkStop();
       }
       else if (animationSpeedPercent < 0.1 && (walk || run)){
         walk = false;
         run = false;
-        OSCPlayerWalkStop();
-        OSCPlayerRunStop();
+        //OSCPlayerWalkStop();
+        //OSCPlayerRunStop();
       }
     }
   }
