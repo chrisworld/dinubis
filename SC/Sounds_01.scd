@@ -46,8 +46,8 @@
 	// Number of active Resis
 	if(msg[0] == '/num_active') {
 		if(msg[1] != 0) {
-		~ampScale = 1 / msg[1] } {
-		~ampScale = 1
+			~ampScale = 1 / msg[1] } {
+			~ampScale = 1
 		}
 	};
 
@@ -73,12 +73,15 @@
 
 	// Player_walk
 	if(msg[0] == '/player_walk') {
+		"walk ".post; msg[1].postln;
 		if (msg[1] == 1) { ~walk = Synth.new(\move, [\buffer, b[\uuu][0], \rate, 2]) }
 		{ ~walk.set(\gate, 0) }
 	};
 
 	// Player_run
 	if(msg[0] == '/player_run') {
+		"run ".post; msg[1].postln;
+
 		if (msg[1] == 1) { ~run = Synth.new(\move, [\buffer, b[\uuu][0], \rate, 3]) }
 		{ ~run.set(\gate, 0) }
 	};
@@ -132,8 +135,9 @@ SynthDef.new(\move, {
 	env = EnvGen.kr(Env.asr(releaseTime: 0.01), gate, doneAction: 2);
 
 	sig = PlayBuf.ar(1, buffer, BufRateScale.kr(buffer) * rate, loop: 1);
+	sig = sig * env * 0.1;
 
-	Out.ar(bus, Limiter.ar(Pan2.ar(sig, pos, env * 0.1)));
+	Out.ar(bus, Limiter.ar(Pan2.ar(sig, pos)));
 }).add;
 
 
@@ -173,7 +177,5 @@ CmdPeriod.doOnce{
 
 
 
-v = Synth.new(\move, [\buffer, b[\uuu][0], \rate, 2]);
-v.set(\gate, 0)
 
 
