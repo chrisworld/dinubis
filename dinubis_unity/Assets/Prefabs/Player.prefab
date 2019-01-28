@@ -67,6 +67,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4405479914030206}
   - component: {fileID: 20521734034389218}
+  - component: {fileID: 81086250350163284}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -229,7 +230,6 @@ GameObject:
   - component: {fileID: 114964299783168768}
   - component: {fileID: 136691853353450406}
   - component: {fileID: 114933835133893366}
-  - component: {fileID: 81145058068310816}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -528,13 +528,13 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 0}
---- !u!81 &81145058068310816
+--- !u!81 &81086250350163284
 AudioListener:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1901042299387618}
-  m_Enabled: 1
+  m_GameObject: {fileID: 1252314089249818}
+  m_Enabled: 0
 --- !u!95 &95272244810873626
 Animator:
   serializedVersion: 3
